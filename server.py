@@ -109,13 +109,13 @@ def signup(clnt_num, clnt_msg):
         for row in rows:
             if user_id in row:
                 # id 중복
-                clnt_sock.send('!NO'.encode())
+                clnt_sock.send('중복'.encode())
                 overlap = True
                 break
         if overlap:
             continue
         
-        clnt_sock.send('!OK'.encode())
+        clnt_sock.send('통과'.encode())
         info = clnt_sock.recv(BUF_SIZE)
         info = info.decode() # id/pw/name 
         if info == 'close':
