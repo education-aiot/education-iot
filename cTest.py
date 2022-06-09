@@ -80,4 +80,4 @@ while True:
     time.sleep(1)
     pass
 
-client_sock.close()
+#fd

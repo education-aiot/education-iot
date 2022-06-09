@@ -153,6 +153,4 @@ if __name__=="__main__":
         receiver=Thread(target=recv_func, args=(clnt_sock, count, lock)) # 201) 
         receiver.start()
 
-
-##333ewrwe
-#rwqqwrwrq
+#fdf
