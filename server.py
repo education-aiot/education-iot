@@ -29,15 +29,18 @@ def handle_clnt(clnt_sock):
         clnt_msg = clnt_sock.recv(BUF_SIZE)
 
         if not clnt_msg:
+            print("client socket close")
             break
 
         clnt_msg = clnt_msg.decode()
         print(clnt_msg)
         if clnt_msg.startswith('signup/'):
             clnt_msg = clnt_msg.replace('signup/', '')
+            print(clnt_msg)
             signup(clnt_num, clnt_msg)
         elif clnt_msg.startswith('login/'):
             clnt_msg = clnt_msg.replace('login/', '')
+            print(clnt_msg)
             login(clnt_num, clnt_msg)
         elif clnt_msg.startswith('QnA/'):
             clnt_msg = clnt_msg.replace('QnA/', '')
@@ -60,7 +63,7 @@ def qna(clnt_num, clnt_msg): # QnA 등록
         
     elif member == 'teacher':
         data = clnt_msg.split(':')
-        cur.executemany("INSERT INTO QnA(teachername, answer) VALUES(? ,?),", (data,))
+        cur.executemany("UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
 
     conn.commit()
     conn.close()
@@ -73,7 +76,10 @@ def quiz(clnt_num, clnt_msg):
     if member == 'student':
         cur.execute("SELECT * FROM Quiz")
 
-    elif member == 'teacher':
+def quiz_update(clnt_num, clnt_msg):
+    conn, cur = conn_DB()
+    member = clnt_data[clnt_num][1]
+    if member == 'teacher':
         clnt_msg.split('/')
         cur.executemany("INSERT INTO Quiz(quiz, answer) VALUES (?, ?)")
     
@@ -95,29 +101,33 @@ def signup(clnt_num, clnt_msg):
         if clnt_msg.startswith('teacher/'):
             member = 'teacher'
             user_id = clnt_msg.replace('teacher/', '')
+            print(user_id)
         elif clnt_msg.startswith('student/'):
             member = 'student'
             user_id = clnt_msg.replace('student/', '')
+            print(user_id)
         else:
             print("error")
             conn.close()
             return
 
         query = "SELECT id FROM %s" % member
-        rows = cur.excute(query)
+        rows = cur.execute(query)
 
         for row in rows:
             if user_id in row:
                 # id 중복
-                clnt_sock.send('중복'.encode())
+                clnt_sock.send('NO'.encode())
                 overlap = True
                 break
         if overlap:
-            continue
+            print("id overlap")
+            return
         
-        clnt_sock.send('통과'.encode())
+        clnt_sock.send('!OK'.encode())
         info = clnt_sock.recv(BUF_SIZE)
         info = info.decode() # id/pw/name 
+        print("id/pw/name: ", info)
         if info == 'close':
             conn.close()
             break
@@ -145,9 +155,10 @@ def login(clnt_num, clnt_msg):
     if clnt_msg.startswith('teacher/'):
         member = 'teacher'
         input_data = clnt_msg.replace('teacher/', '')
-    elif clnt_msg.startswtih('student/'):
+    elif clnt_msg.startswith('student/'):
         member = 'student'
         input_data = clnt_msg.replace('student/', '')
+        print(input_data)
     else:
         print("error")
         return
@@ -170,6 +181,7 @@ def login(clnt_num, clnt_msg):
         print("login sucess")
         clnt_data[clnt_num].append(member)
         clnt_data[clnt_num].append(input_id)
+        clnt_sock.send("!OK".encode())
         query = "SELECT * FROM %s WHERE id = ?" % member
         cur.execute(query, (input_id,))
         user_data = cur.fetchone()
