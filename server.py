@@ -49,8 +49,8 @@ def handle_clnt(clnt_sock):
             quiz(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):
             clnt_msg = clnt_msg.replace('chat/', '')
-        elif clnt_msg.startswith('upload/'):           # QnA 등록
-            clnt_msg = clnt_msg.replace('upload/,' '')
+        elif clnt_msg.startswith('qna_upload/'):           # QnA 등록
+            clnt_msg = clnt_msg.replace('qna_upload/,' '')
             qna_update(clnt_num, clnt_msg)
 
 
@@ -60,20 +60,20 @@ def qna(clnt_num): # QnA
 
     cur.execute("SELECT * FROM QnA")
     rows = cur.fetchall()
-    print(rows)
-    if rows is None:
+    if not rows:
         clnt_sock.send("등록된 QnA 없음".encode())
+        return
     else:
         for row in rows:
-            question = list(row)
-            question[0] = str(question[0])
-            for i in range(0, len(question)):     # None인 항목 찾기
-                if question[i] is None:
-                    question[i] = ''
-            question = '/'.join(question)
+            row = list(row)
+            row[0] = str(row[0])
+            for i in range(0, len(row)):     # None인 항목 찾기
+                if row[i] is None:
+                    row[i] = ' '
+            row = '/'.join(row)
 
-            print(question)
-            clnt_sock.send(question.encode())
+            print(row)
+            clnt_sock.send(row.encode())
     conn.close()
 
 
@@ -90,7 +90,7 @@ def qna_update(clnt_num, clnt_msg):
     elif member == 'teacher':
         data = clnt_msg.split('/') # answer, num
         data.insert(0, name)
-        cur.executemany("UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
+        cur.execute("UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
 
     conn.commit()
     conn.close()
@@ -100,17 +100,37 @@ def quiz(clnt_num, clnt_msg):
     conn, cur = conn_DB()
     member = clnt_data[clnt_num][1]
     id = clnt_data[clnt_num][2]
+
     if member == 'student':
         cur.execute("SELECT * FROM Quiz")
+        rows = cur.fetchall()
+        if not rows:
+            print("퀴즈 없음")
+            clnt_sock.send("등록된 quiz 없음".encode())
+            return
+        for row in rows:
+            row = list(row) 
+            row[0] = str(row[0])
+            row = '/'.join(row)
+            print(row)
+            clnt_sock.send(row.encode())
+    else:
+        print("권한없음")
 
 
 def quiz_update(clnt_num, clnt_msg):
     conn, cur = conn_DB()
     member = clnt_data[clnt_num][1]
     if member == 'teacher':
-        clnt_msg.split('/')
-        cur.executemany("INSERT INTO Quiz(quiz, answer) VALUES (?, ?)")
-    
+        data = clnt_msg.split('/')
+        cur.executemany("INSERT INTO Quiz(quiz, answer) VALUES (?, ?)", (data,))
+    else:
+        print("권한없음")
+
+    conn.commit()
+    conn.close()
+
+
 
 def signup(clnt_num, clnt_msg):
     conn, cur = conn_DB()
