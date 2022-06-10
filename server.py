@@ -4,7 +4,7 @@ import sqlite3
 import sys
 
 
-PORT = 9040
+PORT = 9041
 BUF_SIZE = 1024
 lock = threading.Lock()
 clnt_data = []
@@ -43,26 +43,53 @@ def handle_clnt(clnt_sock):
             print(clnt_msg)
             login(clnt_num, clnt_msg)
         elif clnt_msg.startswith('QnA/'):
-            clnt_msg = clnt_msg.replace('QnA/', '')
-            qna(clnt_num, clnt_msg)
+            qna(clnt_num)
         elif clnt_msg.startswith('quiz/'):
             clnt_msg = clnt_msg.replace('quiz/', '')
             quiz(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):
             clnt_msg = clnt_msg.replace('chat/', '')
-            
+        elif clnt_msg.startswith('upload/'):           # QnA 등록
+            clnt_msg = clnt_msg.replace('upload/,' '')
+            qna_update(clnt_num, clnt_msg)
 
 
-def qna(clnt_num, clnt_msg): # QnA 등록
+def qna(clnt_num): # QnA 
+    conn, cur = conn_DB()
+    clnt_sock = clnt_data[clnt_num][0]
+
+    cur.execute("SELECT * FROM QnA")
+    rows = cur.fetchall()
+    print(rows)
+    if rows is None:
+        clnt_sock.send("등록된 QnA 없음".encode())
+    else:
+        for row in rows:
+            question = list(row)
+            question[0] = str(question[0])
+            for i in range(0, len(question)):     # None인 항목 찾기
+                if question[i] is None:
+                    question[i] = ''
+            question = '/'.join(question)
+
+            print(question)
+            clnt_sock.send(question.encode())
+    conn.close()
+
+
+def qna_update(clnt_num, clnt_msg):
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
+    name = clnt_data[clnt_num][4]
+    
     if member == 'student':
-        data = clnt_msg.split(':')
+        data = [name, clnt_msg]
         cur.executemany("INSERT INTO QnA(studentname, question) VALUES(?, ?)", (data,))
         
     elif member == 'teacher':
-        data = clnt_msg.split(':')
+        data = clnt_msg.split('/') # answer, num
+        data.insert(0, name)
         cur.executemany("UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
 
     conn.commit()
@@ -75,6 +102,7 @@ def quiz(clnt_num, clnt_msg):
     id = clnt_data[clnt_num][2]
     if member == 'student':
         cur.execute("SELECT * FROM Quiz")
+
 
 def quiz_update(clnt_num, clnt_msg):
     conn, cur = conn_DB()
@@ -180,22 +208,27 @@ def login(clnt_num, clnt_msg):
     if (input_pw,) == user_pw:
         print("login sucess")
         clnt_data[clnt_num].append(member)
-        clnt_data[clnt_num].append(input_id)
+        
+        print("clnt_data:", clnt_data[clnt_num])
         clnt_sock.send("!OK".encode())
         query = "SELECT * FROM %s WHERE id = ?" % member
         cur.execute(query, (input_id,))
         user_data = cur.fetchone()
         user_data = list(user_data)
         print("user_data ", user_data)
+        clnt_data[clnt_num] = clnt_data[clnt_num] + user_data
+        print("clnt_data:", clnt_data[clnt_num])
 
-        #send_user_info()
+        '''확인용
+        member = clnt_data[clnt_num][1]
+        name = clnt_data[clnt_num][4]
+        print("member", member, "name", name) 
+        '''
         
     else :
         print("login fail")
         clnt_sock.send("pw_error".encode())
-        conn.close()
-        return
-
+    conn.close()
 
 
 if __name__ == '__main__':
