@@ -3,15 +3,16 @@ import threading
 import sqlite3
 import sys
 
-PORT = 9041
+PORT = 9040
 BUF_SIZE = 1024
 lock = threading.Lock()
-clnt_data = []            #  접속한 클라이언트 정보 대입
-clnt_cnt = 0              #  접속한 클라이언트 수
+clnt_data = []  # 접속한 클라이언트 정보 대입
+clnt_cnt = 0  # 접속한 클라이언트 수
+chat = 1
 
 
 def conn_DB():
-    conn = sqlite3.connect('edu.db') # DB 연결
+    conn = sqlite3.connect('edu.db')  # DB 연결
     cur = conn.cursor()
     return (conn, cur)
 
@@ -32,7 +33,8 @@ def handle_clnt(clnt_sock):
 
         clnt_msg = clnt_msg.decode()
         print(clnt_msg)
-        if clnt_msg.startswith('signup/'):        
+
+        if clnt_msg.startswith('signup/'):
             clnt_msg = clnt_msg.replace('signup/', '')
             print(clnt_msg)
             signup(clnt_num, clnt_msg)
@@ -40,7 +42,9 @@ def handle_clnt(clnt_sock):
             clnt_msg = clnt_msg.replace('login/', '')
             print(clnt_msg)
             login(clnt_num, clnt_msg)
-        elif clnt_msg.startswith('QnA/'):    # QnA 페이지 
+        elif clnt_data[clnt_num][2] != 0:
+            chatting(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('QnA/'):    # QnA 페이지
             qna(clnt_num)
         elif clnt_msg.startswith('QnA_upload/'):           # QnA 등록
             clnt_msg = clnt_msg.replace('QnA_upload/,' '')
@@ -50,15 +54,67 @@ def handle_clnt(clnt_sock):
             quiz_print(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):
             clnt_msg = clnt_msg.replace('chat/', '')
+            show_list(clnt_num)
+        elif clnt_msg.startswith('invite/'):  # invite/ name (초대)
+            clnt_msg = clnt_msg.replace('invite/', '')
+            invite(clnt_num, clnt_msg)
         else:
             continue
 
 
-def qna(clnt_num): # QnA 페이지 열면 QnA 목록 전송
+
+def chatting(clnt_num, clnt_msg):
+
+    for i in range(0, clnt_cnt):
+        if clnt_data[i][2] == clnt_data[clnt_num][2]:
+            clnt_data[i][0].send(clnt_msg.encode())
+            break
+
+
+
+def invite(clnt_num, clnt_msg):
+    global chat
+    clnt_sock = clnt_data[clnt_num][0] # my
+    name = clnt_msg
+    for i in range(0, clnt_cnt):
+        if clnt_data[i][5] == name: #you_name
+            clnt_data[i][0].send('채팅 초대'.encode())
+            break
+
+    recv_msg = clnt_data[i][0].recv(BUF_SIZE) # you.recv
+    recv_msg = recv_msg.decode()
+    if recv_msg == 'yes':
+        clnt_sock.send('수락'.encode())
+        clnt_data[i][2] = chat
+        clnt_data[clnt_num][2] = chat
+        chat += 1
+    else:
+        clnt_sock.send('거절'.encode())
+        
+
+
+def show_list(clnt_num):
+    clnt_sock = clnt_data[clnt_num][0]
+    member = clnt_data[clnt_num][1]
+    all_name = []
+    if member == 'student':
+        for i in range(0, clnt_cnt):
+            if clnt_data[i][1] == 'teacher':
+                all_name.append(clnt_data[i][4])
+    elif member == 'teacher':
+        for i in range(0, clnt_cnt):
+            if clnt_data[i][1] == 'teacher':
+                all_name.append(clnt_data[i][4])
+
+    all_name = '/'.join(all_name)
+    clnt_sock.send(all_name)
+
+
+def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
 
-    cur.execute("SELECT * FROM QnA")  #DB에서 QnA 목록 조회
+    cur.execute("SELECT * FROM QnA")  # DB에서 QnA 목록 조회
     rows = cur.fetchall()
     if not rows:                 # DB에 QnA 없으면
         clnt_sock.send("QnA/등록된 QnA 없음".encode())
@@ -68,7 +124,7 @@ def qna(clnt_num): # QnA 페이지 열면 QnA 목록 전송
             row[0] = str(row[0])
             for i in range(0, len(row)):     # None인 항목 찾기
                 if row[i] is None:
-                    row[i] = ' '             # None이면 공백으로 
+                    row[i] = ' '             # None이면 공백으로
             row = '/'.join(row)              # / 로 나눠서 문자열 만들기
 
             row = "QnA/" + row
@@ -81,17 +137,19 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
-    name = clnt_data[clnt_num][4]
-    
+    name = clnt_data[clnt_num][5]
+
     if member == 'student':                    # 학생이면
         data = clnt_msg.split('/')             # 학생닉네임, 질문
         lock.acquire()
-        cur.executemany("INSERT INTO QnA(studentname, question) VALUES(?, ?)", (data,))
-        
-    elif member == 'teacher':                  
-        data = clnt_msg.split('/')              
+        cur.executemany(
+            "INSERT INTO QnA(studentname, question) VALUES(?, ?)", (data,))
+
+    elif member == 'teacher':
+        data = clnt_msg.split('/')
         lock.acquire()
-        cur.execute("UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
+        cur.execute(
+            "UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
 
     conn.commit()
     lock.release()
@@ -109,33 +167,30 @@ def quiz_print(clnt_num, clnt_msg):
         if not rows:
             print("퀴즈 없음")
             clnt_sock.send("등록된 quiz 없음".encode())
-            
+
         else:
             for row in rows:
-                row = list(row) 
+                row = list(row)
                 row[0] = str(row[0])
                 row = '/'.join(row)
                 print(row)
                 clnt_sock.send(row.encode())
-        
+
     else:
         print("권한없음")
 
     conn.close()
 
 
-
-
 def quiz_result(clnt_num, clnt_msg):
-    conn,cur = conn_DB()
-    id = clnt_data[clnt_num][2]
-    save = clnt_data[clnt_num][5]
-    point = int(clnt_data[clnt_num][6])
+    conn, cur = conn_DB()
+    id = clnt_data[clnt_num][3]
+    save = clnt_data[clnt_num][6]
+    point = int(clnt_data[clnt_num][7])
 
     data = clnt_msg.split('/')
     data.insert(-1, id)
     cur.execute("UPDATE student SET save = ?, point = ? WHERE id = ?", (data,))
-
 
 
 def quiz_update(clnt_num, clnt_msg):
@@ -145,14 +200,14 @@ def quiz_update(clnt_num, clnt_msg):
     if member == 'teacher':
         data = clnt_msg.split('/')
         lock.acquire()
-        cur.executemany("INSERT INTO Quiz(quiz, answer) VALUES (?, ?)", (data,))
+        cur.executemany(
+            "INSERT INTO Quiz(quiz, answer) VALUES (?, ?)", (data,))
     else:
         print("권한없음")
 
     conn.commit()
     lock.release()
     conn.close()
-
 
 
 def quiz_avg(clnt_num, clnt_msg):
@@ -172,7 +227,6 @@ def quiz_avg(clnt_num, clnt_msg):
             clnt_sock.send(row.encode())
 
     conn.close()
-
 
 
 def signup(clnt_num, clnt_msg):
@@ -214,10 +268,10 @@ def signup(clnt_num, clnt_msg):
         if overlap:
             print("id overlap")
             return
-        
+
         clnt_sock.send('!OK'.encode())
         info = clnt_sock.recv(BUF_SIZE)
-        info = info.decode() # id/pw/name 
+        info = info.decode()  # id/pw/name
         print("id/pw/name: ", info)
         if info == 'close':
             conn.close()
@@ -227,7 +281,7 @@ def signup(clnt_num, clnt_msg):
 
         for i in range(3):
             user_data.append(info[i])
-        
+
         lock.acquire()
         insert_query = "INSERT INTO %s(id, pw, name) VALUES(?, ?, ?)" % member
         cur.executemany(insert_query, (user_data,))
@@ -235,14 +289,13 @@ def signup(clnt_num, clnt_msg):
         conn.close()
         lock.release()
         break
-    
-        
+
 
 def login(clnt_num, clnt_msg):
     conn, cur = conn_DB()
-    member=''
+    member = ''
     clnt_sock = clnt_data[clnt_num][0]
-    #login/member/id/pw
+    # login/member/id/pw
     if clnt_msg.startswith('teacher/'):
         member = 'teacher'
         input_data = clnt_msg.replace('teacher/', '')
@@ -253,14 +306,14 @@ def login(clnt_num, clnt_msg):
     else:
         print("error")
         return
-    
+
     input_data = input_data.split('/')
     input_id = input_data[0]
     input_pw = input_data[1]
-    
+
     query = "SELECT pw FROM %s WHERE id =?" % member
     cur.execute(query, (input_id,))
-    
+
     user_pw = cur.fetchone()
 
     if not user_pw:
@@ -271,7 +324,7 @@ def login(clnt_num, clnt_msg):
     if (input_pw,) == user_pw:
         print("login sucess")
         clnt_data[clnt_num].append(member)
-        
+
         print("clnt_data:", clnt_data[clnt_num])
         clnt_sock.send("!OK".encode())
         query = "SELECT * FROM %s WHERE id = ?" % member
@@ -279,16 +332,16 @@ def login(clnt_num, clnt_msg):
         user_data = cur.fetchone()
         user_data = list(user_data)
         print("user_data ", user_data)
-        clnt_data[clnt_num] = clnt_data[clnt_num] + user_data
+        clnt_data[clnt_num] = clnt_data[clnt_num] + [0] + user_data
         print("clnt_data:", clnt_data[clnt_num])
 
         '''확인용
         member = clnt_data[clnt_num][1]
-        name = clnt_data[clnt_num][4]
+        name = clnt_data[clnt_num][5]
         print("member", member, "name", name) 
         '''
-        
-    else :
+
+    else:
         print("login fail")
         clnt_sock.send("pw_error".encode())
     conn.close()
@@ -306,6 +359,7 @@ if __name__ == '__main__':
         clnt_data.insert(clnt_cnt, [clnt_sock])
         print("clnt_data", clnt_data)
         clnt_cnt += 1
+        print(clnt_cnt)
         lock.release()
-        thread = threading.Thread(target = handle_clnt, args = (clnt_sock,))
+        thread = threading.Thread(target=handle_clnt, args=(clnt_sock,))
         thread.start()
