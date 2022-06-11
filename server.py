@@ -113,7 +113,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
 
-    cur.execute("SELECT * FROM QnA")  # DB에서 QnA 목록 조회
+    cur.execute("SELECT question, answer, studentname, teachername FROM QnA")  # DB에서 QnA 목록 조회
     rows = cur.fetchall()
     if not rows:                 # DB에 QnA 없으면
         clnt_sock.send("QnA/등록된 QnA 없음".encode())
@@ -138,14 +138,15 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     member = clnt_data[clnt_num][1]
     name = clnt_data[clnt_num][5]
 
-    if member == 'student':                    # 학생이면
-        data = clnt_msg.split('/')             # 학생닉네임, 질문
+    if member == 'student':                    # 학생
+        data = [name, clnt_msg]                # 질문
         lock.acquire()
         cur.executemany(
             "INSERT INTO QnA(studentname, question) VALUES(?, ?)", (data,))
 
     elif member == 'teacher':
         data = clnt_msg.split('/')
+        data = [name] + data
         lock.acquire()
         cur.execute(
             "UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
