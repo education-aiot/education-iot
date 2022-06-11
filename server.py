@@ -282,11 +282,11 @@ def login(clnt_num, clnt_msg):
         clnt_data[clnt_num] = clnt_data[clnt_num] + user_data
         print("clnt_data:", clnt_data[clnt_num])
 
-        
+        '''확인용
         member = clnt_data[clnt_num][1]
         name = clnt_data[clnt_num][4]
         print("member", member, "name", name) 
-    
+        '''
         
     else :
         print("login fail")
