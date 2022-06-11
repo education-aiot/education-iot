@@ -32,7 +32,7 @@ def handle_clnt(clnt_sock):
             break
 
         clnt_msg = clnt_msg.decode()
-        print(clnt_msg)
+        print("받은메세지 :" + clnt_msg)
 
         if clnt_msg.startswith('signup/'):
             clnt_msg = clnt_msg.replace('signup/', '')
@@ -52,8 +52,8 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('quiz/'):
             clnt_msg = clnt_msg.replace('quiz/', '')
             quiz_print(clnt_num, clnt_msg)
-        elif clnt_msg.startswith('chat/'):
-            clnt_msg = clnt_msg.replace('chat/', '')
+        elif clnt_msg.startswith('list/'):
+            clnt_msg = clnt_msg.replace('list/', '')
             show_list(clnt_num)
         elif clnt_msg.startswith('invite/'):  # invite/ name (초대)
             clnt_msg = clnt_msg.replace('invite/', '')
@@ -67,10 +67,9 @@ def chatting(clnt_num, clnt_msg):
 
     for i in range(0, clnt_cnt):
         if clnt_data[i][2] == clnt_data[clnt_num][2]:
+            clnt_msg = clnt_data[clnt_num][5] + ' : ' + clnt_msg
             clnt_data[i][0].send(clnt_msg.encode())
-            break
-
-
+        
 
 def invite(clnt_num, clnt_msg):
     global chat
@@ -100,11 +99,11 @@ def show_list(clnt_num):
     if member == 'student':
         for i in range(0, clnt_cnt):
             if clnt_data[i][1] == 'teacher':
-                all_name.append(clnt_data[i][4])
+                all_name.append(clnt_data[i][5])
     elif member == 'teacher':
         for i in range(0, clnt_cnt):
             if clnt_data[i][1] == 'teacher':
-                all_name.append(clnt_data[i][4])
+                all_name.append(clnt_data[i][5])
 
     all_name = '/'.join(all_name)
     clnt_sock.send(all_name)
