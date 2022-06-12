@@ -2,6 +2,7 @@ import socket
 import threading
 import sqlite3
 import sys
+import time
 
 PORT = 9040
 BUF_SIZE = 1024
@@ -42,19 +43,22 @@ def handle_clnt(clnt_sock):
             clnt_msg = clnt_msg.replace('login/', '')
             print(clnt_msg)
             login(clnt_num, clnt_msg)
-        elif clnt_data[clnt_num][2] != 0:
-            chatting(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('chat/'):  ## 수정
+            if clnt_data[clnt_num][2] != 0:  # 초기의 채팅방 상태는 0
+                chatting(clnt_num, clnt_msg)
+            else:
+                clnt_cnt.send('채팅상대를 초대하세요.'.encode()) ##수정
         elif clnt_msg.startswith('QnA/'):    # QnA 페이지
             qna(clnt_num)
         elif clnt_msg.startswith('Question/'):           # QnA 등록
-            clnt_msg = clnt_msg.replace('Question/,' '')
+            clnt_msg = clnt_msg.replace('Question/', '')
             qna_update(clnt_num, clnt_msg)
         elif clnt_msg.startswith('quiz/'):
             clnt_msg = clnt_msg.replace('quiz/', '')
             quiz_print(clnt_num, clnt_msg)
-        elif clnt_msg.startswith('list/'):
-            clnt_msg = clnt_msg.replace('list/', '')
-            show_list(clnt_num)
+        elif clnt_msg.startswith('name_list/'): ## 수정 
+            clnt_msg = clnt_msg.replace('name_list/', '') ## 수정 
+            show_list(clnt_num)  # 학생이면 >> 선생님들 list 보냄 // 선생님이면 >> 학생 list 보냄
         elif clnt_msg.startswith('invite/'):  # invite/ name (초대)
             clnt_msg = clnt_msg.replace('invite/', '')
             invite(clnt_num, clnt_msg)
@@ -70,7 +74,6 @@ def chatting(clnt_num, clnt_msg):
                 clnt_data[i][2] = 0
                 clnt_data[i][0].send(('chat/' + clnt_data[clnt_num][5] + '님이 나갔습니다.').encode()) # 상대한테만 전송
                 break
-            clnt_msg = 'chat/' + clnt_msg
             clnt_data[i][0].send(clnt_msg.encode())  # 자신과 상대한테 for문 돌면서 전송
 
 
@@ -132,6 +135,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
             row = "QnA/" + row
             print(row)
             clnt_sock.send(row.encode())
+            time.sleep(0.5)
     conn.close()
 
 
@@ -140,7 +144,9 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
     name = clnt_data[clnt_num][5]
-
+    print(clnt_msg)
+    print(member)
+    print(name)
     if member == 'student':                    # 학생
         data = [name, clnt_msg]                # 질문
         lock.acquire()
