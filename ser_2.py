@@ -64,7 +64,6 @@ def handle_clnt(clnt_sock):
         else:
             continue
 
-# 채팅방에서 '그만하기' >> 채팅방 상태를 모두 0 >> 채팅 끊기
 
     
 def chatting(clnt_num, clnt_msg):
