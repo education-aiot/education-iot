@@ -9,7 +9,7 @@ BUF_SIZE = 1024
 lock = threading.Lock()
 clnt_data = []  # 접속한 클라이언트 정보 대입
 clnt_cnt = 0  # 접속한 클라이언트 수
-chat = 1
+chat = 1      # 채팅방 번호
 
 
 def conn_DB():
@@ -103,10 +103,12 @@ def show_list(clnt_num):
     member = clnt_data[clnt_num][1]
     all_name = []
     if member == 'student':
+        all_name.append('TN/')
         for i in range(0, clnt_cnt):
             if clnt_data[i][1] == 'teacher':
                 all_name.append(clnt_data[i][5])
     elif member == 'teacher':
+        all_name.append('SN/')
         for i in range(0, clnt_cnt):
             if clnt_data[i][1] == 'teacher':
                 all_name.append(clnt_data[i][5])
@@ -135,7 +137,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
             row = "QnA/" + row
             print(row)
             clnt_sock.send(row.encode())
-            time.sleep(0.5)
+            time.sleep(0.1)
     conn.close()
 
 
@@ -199,6 +201,7 @@ def quiz_result(clnt_num, clnt_msg):
 
     data = clnt_msg.split('/')
     data.insert(-1, id)
+    print("data : ", data)
     cur.execute("UPDATE student SET save = ?, point = ? WHERE id = ?", (data,))
 
 
@@ -343,7 +346,7 @@ def login(clnt_num, clnt_msg):
         print("user_data ", user_data)
         clnt_data[clnt_num] = clnt_data[clnt_num] + [0] + user_data
         print("clnt_data:", clnt_data[clnt_num])
-
+    
         '''확인용
         member = clnt_data[clnt_num][1]
         name = clnt_data[clnt_num][5]
