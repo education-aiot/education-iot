@@ -46,8 +46,8 @@ def handle_clnt(clnt_sock):
             chatting(clnt_num, clnt_msg)
         elif clnt_msg.startswith('QnA/'):    # QnA 페이지
             qna(clnt_num)
-        elif clnt_msg.startswith('QnA_upload/'):           # QnA 등록
-            clnt_msg = clnt_msg.replace('QnA_upload/,' '')
+        elif clnt_msg.startswith('Question/'):           # QnA 등록
+            clnt_msg = clnt_msg.replace('Question/,' '')
             qna_update(clnt_num, clnt_msg)
         elif clnt_msg.startswith('quiz/'):
             clnt_msg = clnt_msg.replace('quiz/', '')
@@ -62,14 +62,17 @@ def handle_clnt(clnt_sock):
             continue
 
 
-
 def chatting(clnt_num, clnt_msg):
-
     for i in range(0, clnt_cnt):
-        if clnt_data[i][2] == clnt_data[clnt_num][2]:
-            clnt_msg = clnt_data[clnt_num][5] + ' : ' + clnt_msg
-            clnt_data[i][0].send(clnt_msg.encode())
-        
+        if clnt_data[i][2] == clnt_data[clnt_num][2]:  # 자신을 포함한 상대의 방번호가 같으면 
+            if '그만하기' in clnt_msg and i != clnt_num: # clnt_msg에 그만하기 & 자기 자신이 아니면
+                clnt_data[clnt_num][2] = 0 # 자기 자신은 채팅 여부는 0
+                clnt_data[i][2] = 0
+                clnt_data[i][0].send(('chat/' + clnt_data[clnt_num][5] + '님이 나갔습니다.').encode()) # 상대한테만 전송
+                break
+            clnt_msg = 'chat/' + clnt_msg
+            clnt_data[i][0].send(clnt_msg.encode())  # 자신과 상대한테 for문 돌면서 전송
+
 
 def invite(clnt_num, clnt_msg):
     global chat
@@ -113,7 +116,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
 
-    cur.execute("SELECT question, answer, studentname, teachername FROM QnA")  # DB에서 QnA 목록 조회
+    cur.execute("SELECT * FROM QnA")  # DB에서 QnA 목록 조회
     rows = cur.fetchall()
     if not rows:                 # DB에 QnA 없으면
         clnt_sock.send("QnA/등록된 QnA 없음".encode())
@@ -357,9 +360,7 @@ if __name__ == '__main__':
 
         lock.acquire()
         clnt_data.insert(clnt_cnt, [clnt_sock])
-        print("clnt_data", clnt_data)
         clnt_cnt += 1
-        print(clnt_cnt)
         lock.release()
         thread = threading.Thread(target=handle_clnt, args=(clnt_sock,))
         thread.start()
