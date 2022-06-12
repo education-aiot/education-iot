@@ -84,6 +84,7 @@ def invite(clnt_num, clnt_msg):
     for i in range(0, clnt_cnt):
         if clnt_data[i][5] == name: #you_name
             clnt_data[i][0].send('채팅 초대'.encode())
+            print('초대보내기')
             break
 
     recv_msg = clnt_data[i][0].recv(BUF_SIZE) # you.recv
@@ -114,7 +115,7 @@ def show_list(clnt_num):
                 all_name.append(clnt_data[i][5])
 
     all_name = '/'.join(all_name)
-    clnt_sock.send(all_name)
+    clnt_sock.send(all_name.encode())
 
 
 def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
@@ -158,9 +159,11 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     elif member == 'teacher':
         data = clnt_msg.split('/')
         data = [name] + data
+        data[2] = int(data[2])
         lock.acquire()
-        cur.execute(
-            "UPDATE QnA SET teachername = ?, answer = ? WHERE num = ?,", (data,))
+        query = "UPDATE QnA SET teachername = %s, answer = %s where num = %d" % (data[0], data[1], data[2])
+        print("query : ", query)
+        cur.execute(query)
 
     conn.commit()
     lock.release()
@@ -304,13 +307,13 @@ def signup(clnt_num, clnt_msg):
 
 
 def login(clnt_num, clnt_msg):
-    conn, cur = conn_DB()
+    conn, cur = conn_DB() 
     member = ''
-    clnt_sock = clnt_data[clnt_num][0]
+    clnt_sock = clnt_data[clnt_num][0]   
     # login/member/id/pw
-    if clnt_msg.startswith('teacher/'):
-        member = 'teacher'
-        input_data = clnt_msg.replace('teacher/', '')
+    if clnt_msg.startswith('teacher/'):                  
+        member = 'teacher' 
+        input_data = clnt_msg.replace('teacher/', '')   
     elif clnt_msg.startswith('student/'):
         member = 'student'
         input_data = clnt_msg.replace('student/', '')

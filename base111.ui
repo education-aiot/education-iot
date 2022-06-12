@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>991</width>
+    <height>729</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QStackedWidget" name="stackedWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>971</width>
+     <height>711</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="login_page_2">
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>301</x>
+       <y>210</y>
+       <width>291</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="1">
+       <widget class="QComboBox" name="login_cb_2">
+        <item>
+         <property name="text">
+          <string>학생</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>교사</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>아이디</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="login_id_edit"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_24">
+        <property name="text">
+         <string>비밀번호</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="login_pw_edit"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="join_btn">
+        <property name="text">
+         <string>회원가입</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="login_btn">
+        <property name="text">
+         <string>로그인</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>로그인</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="register_page_2">
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>301</x>
+       <y>210</y>
+       <width>292</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="1">
+       <widget class="QComboBox" name="join_cb_2">
+        <item>
+         <property name="text">
+          <string>학생</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>교사</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_26">
+        <property name="text">
+         <string>아이디</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="join_id_edit"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="overlap_btn">
+        <property name="text">
+         <string>중복확인</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>비밀번호</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="join_pw_edit"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_28">
+        <property name="text">
+         <string>이름</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="join_name_edit"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QPushButton" name="back_btn">
+        <property name="text">
+         <string>회원가입</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>회원가입</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="student_main_page">
+    <widget class="QLabel" name="label_29">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>20</y>
+       <width>131</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학생용 클라이언트</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="solv_btn">
+     <property name="geometry">
+      <rect>
+       <x>261</x>
+       <y>270</y>
+       <width>120</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>문제풀기</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="consulting_btn">
+     <property name="geometry">
+      <rect>
+       <x>547</x>
+       <y>270</y>
+       <width>120</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>상담요청</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qna_btn">
+     <property name="geometry">
+      <rect>
+       <x>404</x>
+       <y>270</y>
+       <width>120</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Q &amp;&amp; A</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>690</x>
+       <y>270</y>
+       <width>120</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>로그아웃</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="study_btn">
+     <property name="geometry">
+      <rect>
+       <x>117</x>
+       <y>270</y>
+       <width>120</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학습자료
+공부하기</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="teacher_main_page">
+    <widget class="QLabel" name="label_30">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>교사용 클라이언트</string>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="teacher_stacked">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>641</width>
+       <height>661</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="update_page">
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>40</y>
+         <width>191</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>문제 업데이트</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="update_table">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>601</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>문제</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>정답</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>390</y>
+         <width>601</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="score_page">
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>30</y>
+         <width>201</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>학생점수 확인 및 통계</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="score_screen">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>221</width>
+         <height>461</height>
+        </rect>
+       </property>
+       <property name="dragEnabled">
+        <bool>false</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string>NAME</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>SCORE</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>70</y>
+         <width>291</width>
+         <height>221</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2"/>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>300</y>
+         <width>291</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5"/>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>50</y>
+       <width>142</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="update_btn">
+        <property name="text">
+         <string>문제 update</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="score_btn">
+        <property name="text">
+         <string>학생점수확인 및 통계</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="qna_btn_2">
+        <property name="text">
+         <string> Q &amp;&amp; A</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="consulting_btn_2">
+        <property name="text">
+         <string>상담요청?</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="logout_btn">
+        <property name="text">
+         <string>로그아웃</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="qna_page_2">
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학생용 Q&amp;A</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="send_line">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>620</y>
+       <width>711</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>290</y>
+       <width>91</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="qna_renew">
+        <property name="text">
+         <string>새로고침</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stu_back_btn3">
+        <property name="text">
+         <string>메인으로</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QTableWidget" name="qna_table">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>721</width>
+       <height>531</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>번호</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>문제</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>답변</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>질문학생</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>선생님</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="teach_qna_page">
+    <widget class="QLabel" name="label_32">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>101</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>교사용 Q&amp;A</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="qna_table_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>721</width>
+       <height>531</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>번호</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>문제</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>답변</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>질문학생</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>선생님</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="send_line_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>620</y>
+       <width>711</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>290</y>
+       <width>91</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QPushButton" name="qna_renew_2">
+        <property name="text">
+         <string>새로고침</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="teach_back_btn3_2">
+        <property name="text">
+         <string>메인으로</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="consulting_page">
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>211</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학생용상담방</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>711</width>
+       <height>521</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>620</y>
+       <width>711</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="quit_btn">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>90</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>그만하기</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="consulting_page_2">
+    <widget class="QLineEdit" name="lineEdit_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>620</y>
+       <width>711</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>211</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>교사용상담방</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="textBrowser_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>711</width>
+       <height>521</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="quit_btn_2">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>90</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>그만하기</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="student_page1">
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>10</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학생 학습자료</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>60</y>
+       <width>921</width>
+       <height>599</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>출현종수</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>출현종</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>식생유형</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>토지유형</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>자치구명</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>조사지역</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>조사연도</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>종수범례</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="stu_back_btn">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>10</y>
+       <width>89</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>돌아가기</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="student_quiz">
+    <widget class="QLabel" name="label_12">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>50</y>
+       <width>171</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>30</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>문제풀기</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>90</y>
+       <width>621</width>
+       <height>561</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>문제</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>답</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>50</y>
+       <width>162</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>맞춘 문제 갯수</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLCDNumber" name="lcdNumber"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="timeout_label">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>50</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>시간</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="check_browser">
+     <property name="geometry">
+      <rect>
+       <x>655</x>
+       <y>460</y>
+       <width>281</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>90</y>
+       <width>131</width>
+       <height>361</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="save_btn">
+        <property name="text">
+         <string>저장하기</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="load_btn">
+        <property name="text">
+         <string>불러오기</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="randchoice_btn">
+        <property name="text">
+         <string>문제업로드</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="check_ans_btn">
+        <property name="text">
+         <string>채점하기</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stu_back_btn2">
+        <property name="text">
+         <string>메인으로</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -5,19 +5,21 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from threading import *
 from random import *
+import time
 
-ui = uic.loadUiType("base.ui")[0] # ui
-
+ui = uic.loadUiType("base111.ui")[0] # ui
+con=sqlite3.connect("Animal.db")
 class MainStudent(QWidget, ui):
 
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.con = sqlite3.connect("Animal.db")# db연결
+        self.con = sqlite3.connect("Animal.db", check_same_thread=False)# db연결
         self.dic = {} # 문제:답 딕셔너리 06/10 사용 x 혹시나 몰라서 놔둠.
         self.num = [] #
         self.answer_lst=[] # 답 리스트
         self.wrong_answer=[] # 틀린답 리스트
+        self.i=0
 
         self.count = 0  # 문제 갯수 세기용
         self.qnacount=0 # 질문 row 세기
@@ -28,10 +30,12 @@ class MainStudent(QWidget, ui):
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         self.qna_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         # 버튼 클릭
+        self.quit_btn.clicked.connect(self.quitmessage)
         self.save_btn.clicked.connect(self.save)
         self.load_btn.clicked.connect(self.load)
         self.qna_renew.clicked.connect(self.renew)
         self.send_line.returnPressed.connect(self.sendqna)
+        self.lineEdit.returnPressed.connect(self.sendconsul)
         self.overlap_btn.clicked.connect(self.overlapCheck)
         self.check_ans_btn.clicked.connect(self.check_answer)
         self.login_btn.clicked.connect(self.Login)
@@ -48,40 +52,93 @@ class MainStudent(QWidget, ui):
 
 
     def receive_messages(self, sock): # 메시지 받기
+        global con
         while True:
             recv_message = sock.recv(4096)
             self.final_message = recv_message.decode('utf-8')
-            print('QnA 받은메시지: ', self.final_message)
-            if 'update/' in self.final_message:
-               self.insql(f'insert into 문제집 values {"업데이트 하는 값"}')
-            elif 'QnA/' in self.final_message:
-                qna_message=self.final_message.split('/') # QnA/문제/답
-                self.insql(f'insert into 질문과답변 values ("{qna_message[2]}","{qna_message[4]}")')
-            elif '' in self.final_message:
-                pass
+            print(self.final_message)
 
+            if 'Quiz/' in self.final_message:
+                quiz=self.final_message.split('/')
+                self.insql(f'insert into 문제집 values ("{quiz[1]}","{quiz[2]}")')
+            elif 'QnA/' in self.final_message:
+
+                self.qna=self.final_message.split('/') # QnA/문제/답
+                print(self.qna)
+                columnname = ['번호', '질문', '답변', '학생이름', '선생님이름']
+                self.qna_table.setHorizontalHeaderLabels(columnname)
+                try:
+                    self.qna_table.setRowCount((self.qnacount+1))
+                    self.qna_table.setItem(self.qnacount, 0, QTableWidgetItem(self.qna[1]))
+                    self.qna_table.setItem(self.qnacount, 1, QTableWidgetItem(self.qna[2]))
+                    self.qna_table.setItem(self.qnacount, 2, QTableWidgetItem(self.qna[3]))
+                    self.qna_table.setItem(self.qnacount, 3, QTableWidgetItem(self.qna[4]))
+                    self.qna_table.setItem(self.qnacount, 4, QTableWidgetItem(self.qna[5]))
+                    self.qnacount += 1
+
+                    globals()['lst{}'.format(self.i)] = [self.qna[1], self.qna[2], self.qna[3], self.qna[4], self.qna[5]]
+
+                    self.i+=1
+                except:
+                    pass
+
+            elif '채팅 초대' in self.final_message:
+
+                # QmessageBox로 yes or no 판별
+                invite=QMessageBox.question(self,"초대요청", "상당방에 초대받으셨습니다. ",QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)
+
+                if invite==QMessageBox.Yes:
+                    self.sock.send('yes'.encode())
+                    self.move_page('상담방')
+
+                else:
+                    self.sock.send('수락 거절'.encode())
+
+            elif 'chat/' in self.final_message:
+                name = self.final_message.split('/')[-2]
+                chat = self.final_message.split('/')[-1]
+
+                self.textBrowser.append(name+":"+ chat)
+                pass
+            elif 'TN/' in self.final_message:
+                self.TN.append(self.final_message.split('/')[1:])
+                pass
     def insql(self,query): #쿼리문 작성용
         with self.con:
             cur = self.con.cursor()
             cur.execute(query)
-
+    def quitmessage(self):
+        self.sock.send('chat/그만하기'.encode())
+        self.move_page('학생메인')
     def sendqna(self): # 질문 보내기
 
-        sendData = f'QnA/{self.nickname}/{self.send_line.text()}'
+        sendData = f'Question/{self.send_line.text()}'
         self.sock.send(sendData.encode('utf-8'))
         self.send_line.clear()
-
+    def sendconsul(self):
+        sendData = f'chat/{self.login_id}/{self.lineEdit.text()}'
+        self.sock.send(sendData.encode('utf-8'))
+        self.lineEdit.clear()
 
     def renew(self): # 질문 페이지 새로고침
         self.qnacount=0
+        self.sock.send('QnA/'.encode())
+        columnname = ['번호', '질문', '답변', '학생이름', '선생님이름']
+        self.qna_table.setHorizontalHeaderLabels(columnname)
+        self.qna_table.setRowCount((self.qnacount + 1))
 
-        with self.con:
-            cur=self.con.cursor()
-            rows=cur.execute('select * from 질문과답변')
-            for row  in rows:
-                self.qna_table.setRowCount((self.qnacount + 1))
-                self.qna_table.setItem(self.qnacount, 0, QTableWidgetItem(row[0]))
-                self.qnacount += 1
+        for i in range(self.i):
+
+            self.qna_table.setItem(i, 0, QTableWidgetItem(globals()['lst{}'.format(i)][0]))
+            self.qna_table.setItem(i, 1, QTableWidgetItem(globals()['lst{}'.format(i)][1]))
+            self.qna_table.setItem(i, 2, QTableWidgetItem(globals()['lst{}'.format(i)][2]))
+            self.qna_table.setItem(i, 3, QTableWidgetItem(globals()['lst{}'.format(i)][3]))
+            self.qna_table.setItem(i, 4, QTableWidgetItem(globals()['lst{}'.format(i)][4]))
+            print('i:', i)
+
+        self.i=0
+        self.qna_table.clear()
+
 
     def overlapCheck(self): #중복확인
         self.sign_id = self.join_id_edit.text()  # 회원가입 ID lineEdit 값 가져오기
@@ -127,6 +184,11 @@ class MainStudent(QWidget, ui):
         if page == '로그인':
             self.stackedWidget_2.setCurrentWidget(self.login_page_2)
         elif page == 'QnA/':
+            self.sock.send('QnA/'.encode())
+            # self.qna_table.setRowCount(0)
+            self.qnacount=0
+            self.qna_table.clear()
+
             self.stackedWidget_2.setCurrentWidget(self.qna_page_2)
 
         elif page == '학생메인':
@@ -146,6 +208,9 @@ class MainStudent(QWidget, ui):
                     for j in range(8):
                         self.tableWidget.setItem(i, j, QTableWidgetItem(str(changetype[j])))
                     i += 1
+        elif page=='상담방':
+            self.sock.send('name_list/'.encode())
+            self.stackedWidget_2.setCurrentWidget(self.consulting_page)
 
         elif page == '문제풀기':
             self.stackedWidget_2.setCurrentWidget(self.student_quiz)
@@ -241,7 +306,6 @@ class MainStudent(QWidget, ui):
         #     cur.execute('')
 
     def load(self):
-
         i=0
         rowcount=0
         with self.con:
@@ -256,8 +320,8 @@ class MainStudent(QWidget, ui):
                 for j in range(self.tableWidget_2.rowCount()):
                     self.tableWidget_2.setItem(i,0,QTableWidgetItem(row[0]))
                     self.tableWidget_2.setItem(i,1,QTableWidgetItem(row[1]))
-
                 i += 1
+
         pass
 
 
