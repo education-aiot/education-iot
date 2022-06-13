@@ -46,8 +46,8 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('chat/'):  ## 수정
             if clnt_data[clnt_num][2] != 0:  # 초기의 채팅방 상태는 0
                 chatting(clnt_num, clnt_msg)
-            else:
-                clnt_cnt.send('채팅상대를 초대하세요.'.encode()) ##수정
+            #else:
+            #    clnt_cnt.send('채팅상대를 초대하세요.'.encode()) ##수정
         elif clnt_msg.startswith('QnA/'):    # QnA 페이지
             qna(clnt_num)
         elif clnt_msg.startswith('Question/'):           # QnA 등록
@@ -67,6 +67,7 @@ def handle_clnt(clnt_sock):
 
 
 def chatting(clnt_num, clnt_msg):
+    print("채팅내용 : ", clnt_msg)
     for i in range(0, clnt_cnt):
         if clnt_data[i][2] == clnt_data[clnt_num][2]:  # 자신을 포함한 상대의 방번호가 같으면 
             if '그만하기' in clnt_msg and i != clnt_num: # clnt_msg에 그만하기 & 자기 자신이 아니면
@@ -104,14 +105,14 @@ def show_list(clnt_num):
     member = clnt_data[clnt_num][1]
     all_name = []
     if member == 'student':
-        all_name.append('TN/')
+        all_name.append('TN')
         for i in range(0, clnt_cnt):
             if clnt_data[i][1] == 'teacher':
                 all_name.append(clnt_data[i][5])
     elif member == 'teacher':
-        all_name.append('SN/')
+        all_name.append('SN')
         for i in range(0, clnt_cnt):
-            if clnt_data[i][1] == 'teacher':
+            if clnt_data[i][1] == 'student':
                 all_name.append(clnt_data[i][5])
 
     all_name = '/'.join(all_name)
@@ -125,7 +126,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
     cur.execute("SELECT * FROM QnA")  # DB에서 QnA 목록 조회
     rows = cur.fetchall()
     if not rows:                 # DB에 QnA 없으면
-        clnt_sock.send("QnA/등록된 QnA 없음".encode())
+        clnt_sock.send("QnA/등록된 QnA 없음/ / ".encode())
     else:
         for row in rows:
             row = list(row)
@@ -159,9 +160,10 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     elif member == 'teacher':
         data = clnt_msg.split('/')
         data = [name] + data
+        print("data: ", data)
         data[2] = int(data[2])
         lock.acquire()
-        query = "UPDATE QnA SET teachername = %s, answer = %s where num = %d" % (data[0], data[1], data[2])
+        query = "UPDATE QnA SET teachername = '%s', answer = '%s' where num = %d" % (data[0], data[1], data[2])
         print("query : ", query)
         cur.execute(query)
 
@@ -205,7 +207,9 @@ def quiz_result(clnt_num, clnt_msg):
     data = clnt_msg.split('/')
     data.insert(-1, id)
     print("data : ", data)
-    cur.execute("UPDATE student SET save = ?, point = ? WHERE id = ?", (data,))
+    data[1] = int(data[1])
+    query = "UPDATE student SET save = %s, point = %d WHERE id = %s" % (data[0], data[1], id)
+    cur.execute(query)
 
 
 def quiz_update(clnt_num, clnt_msg):

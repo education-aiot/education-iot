@@ -365,6 +365,16 @@
        <string>답변</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>질문학생</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>선생님</string>
+      </property>
+     </column>
     </widget>
     <widget class="QPushButton" name="qna_renew">
      <property name="geometry">
