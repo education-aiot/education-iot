@@ -17,23 +17,25 @@ class MainStudent(QWidget, ui):
         self.con = sqlite3.connect("Animal.db", check_same_thread=False)# db연결
         self.dic = {} # 문제:답 딕셔너리 06/10 사용 x 혹시나 몰라서 놔둠.
         self.num = [] #
+        self.TN=[]
         self.answer_lst=[] # 답 리스트
         self.wrong_answer=[] # 틀린답 리스트
         self.i=0
 
         self.count = 0  # 문제 갯수 세기용
         self.qnacount=0 # 질문 row 세기
-
+        self.rowcounts=0
         self.sock = socket(AF_INET, SOCK_STREAM) #소켓
         self.sock.connect(('127.0.0.1', 9040)) # 소켓연결
 
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         self.qna_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         # 버튼 클릭
-        self.quit_btn.clicked.connect(self.quitmessage)
-        self.save_btn.clicked.connect(self.save)
-        self.load_btn.clicked.connect(self.load)
-        self.qna_renew.clicked.connect(self.renew)
+        self.consulting_btn.clicked.connect(self.consult)
+        self.quit_btn.clicked.connect(self.quitmessage) # 나가기버튼
+        self.save_btn.clicked.connect(self.save) #저장버튼
+        self.load_btn.clicked.connect(self.load) # 불러오기버튼
+        self.qna_renew.clicked.connect(self.renew) # 새로고침버튼
         self.send_line.returnPressed.connect(self.sendqna)
         self.lineEdit.returnPressed.connect(self.sendconsul)
         self.overlap_btn.clicked.connect(self.overlapCheck)
@@ -48,27 +50,49 @@ class MainStudent(QWidget, ui):
         self.back_btn.clicked.connect(lambda: self.move_page('로그인'))
         self.join_btn.clicked.connect(lambda: self.move_page('회원가입'))
         self.randchoice_btn.clicked.connect(self.uploadques)
-        # self.randchoice_btn.clicked.connect(lambda :self.sol())
 
+        # self.randchoice_btn.clicked.connect(lambda :self.sol())
+    def insql(self,query): #쿼리문 작성용
+        with self.con:
+            cur = self.con.cursor()
+            cur.execute(query)
 
     def receive_messages(self, sock): # 메시지 받기
         global con
         while True:
             recv_message = sock.recv(4096)
             self.final_message = recv_message.decode('utf-8')
-            print(self.final_message)
 
-            if 'Quiz/' in self.final_message:
+
+            if 'quiz/' in self.final_message:
+                self.rowcounts+=1
                 quiz=self.final_message.split('/')
-                self.insql(f'insert into 문제집 values ("{quiz[1]}","{quiz[2]}")')
+
+                print(f'insert into 문제집 values ("{quiz[2]}","{quiz[3]}")')
+                self.answer_lst.append(quiz[3])
+                try:
+                    with self.con:
+                        cur=self.con.cursor()
+                        cur.execute(f'insert into 문제집 values ("{quiz[2]}","{quiz[3]}")')
+                except:
+                    pass
+                self.tableWidget_2.setRowCount((self.rowcounts))
+                self.tableWidget_2.setItem(self.rowcounts-1, 0, QTableWidgetItem(quiz[2]))
+                print(self.rowcounts)
+                print('퀴즈:', quiz[2])
+
+
+
+
+
             elif 'QnA/' in self.final_message:
 
                 self.qna=self.final_message.split('/') # QnA/문제/답
                 print(self.qna)
                 columnname = ['번호', '질문', '답변', '학생이름', '선생님이름']
-                self.qna_table.setHorizontalHeaderLabels(columnname)
+                self.qna_table.setHorizontalHeaderLabels(columnname) # 컬럼 이름 설정
                 try:
-                    self.qna_table.setRowCount((self.qnacount+1))
+                    self.qna_table.setRowCount((self.qnacount+1)) # 테이블 위젯 row갯수
                     self.qna_table.setItem(self.qnacount, 0, QTableWidgetItem(self.qna[1]))
                     self.qna_table.setItem(self.qnacount, 1, QTableWidgetItem(self.qna[2]))
                     self.qna_table.setItem(self.qnacount, 2, QTableWidgetItem(self.qna[3]))
@@ -77,7 +101,7 @@ class MainStudent(QWidget, ui):
                     self.qnacount += 1
 
                     globals()['lst{}'.format(self.i)] = [self.qna[1], self.qna[2], self.qna[3], self.qna[4], self.qna[5]]
-
+                    # 변수 lst0,lst1 ... 생성하기
                     self.i+=1
                 except:
                     pass
@@ -101,23 +125,42 @@ class MainStudent(QWidget, ui):
                 self.textBrowser.append(name+":"+ chat)
                 pass
             elif 'TN/' in self.final_message:
-                self.TN.append(self.final_message.split('/')[1:])
-                pass
-    def insql(self,query): #쿼리문 작성용
-        with self.con:
-            cur = self.con.cursor()
-            cur.execute(query)
+                self.teacher = self.final_message.split('/')
+                print(self.teacher)
+
+
     def quitmessage(self):
         self.sock.send('chat/그만하기'.encode())
         self.move_page('학생메인')
-    def sendqna(self): # 질문 보내기
 
+    def sendqna(self): # 질문 보내기
         sendData = f'Question/{self.send_line.text()}'
         self.sock.send(sendData.encode('utf-8'))
         self.send_line.clear()
-    def sendconsul(self):
-        sendData = f'chat/{self.login_id}/{self.lineEdit.text()}'
-        self.sock.send(sendData.encode('utf-8'))
+
+    def consult(self): #상담요청 버튼
+        self.sock.send('name_list/'.encode())
+        time.sleep(0.3)
+        for i in range(len(self.teacher)):
+            try:
+                self.TN.append(self.teacher[i + 1])
+            except:
+                pass
+
+        item, ok = QInputDialog.getItem(self, "선생님 목록", "선생님을 선택하세요.", self.TN, 0, False)
+        if ok and item:
+            print('선생님이름:',item)
+            self.sock.send(f'invite/{item}'.encode())
+
+        # if '수락' in self.final_message:
+            self.move_page('상담방')
+            self.TN.clear()
+
+
+    def sendconsul(self): # 상담 메지시 보내기
+        sendDataa = f'chat/{self.login_id}/{self.lineEdit.text()}'
+
+        self.sock.send(sendDataa.encode('utf-8'))
         self.lineEdit.clear()
 
     def renew(self): # 질문 페이지 새로고침
@@ -173,14 +216,15 @@ class MainStudent(QWidget, ui):
         else:
             pass
 
-    def SignUp(self):
+    def SignUp(self):# 회원가입 함수
         QMessageBox.information(self, '회원가입', '회원가입 성공!.')
         self.sign_pw = self.join_pw_edit.text()
         self.nickname = self.join_name_edit.text()
         self.move_page('로그인')
         self.sock.send(f'{self.sign_id}/{self.sign_pw}/{self.nickname}'.encode('utf-8'))
         print('')
-    def move_page(self, page):
+
+    def move_page(self, page): # 페이지 이동 함수
         if page == '로그인':
             self.stackedWidget_2.setCurrentWidget(self.login_page_2)
         elif page == 'QnA/':
@@ -209,41 +253,31 @@ class MainStudent(QWidget, ui):
                         self.tableWidget.setItem(i, j, QTableWidgetItem(str(changetype[j])))
                     i += 1
         elif page=='상담방':
-            self.sock.send('name_list/'.encode())
+
             self.stackedWidget_2.setCurrentWidget(self.consulting_page)
 
         elif page == '문제풀기':
+            self.rowcounts=0
+            try:
+                self.insql(f'delete from 문제집')  # 쿼리문 작성
+            except:
+                pass
             self.stackedWidget_2.setCurrentWidget(self.student_quiz)
         elif page == '회원가입':
             self.stackedWidget_2.setCurrentWidget(self.register_page_2)
 
 
-    def solv_page(self):
-        with self.con:
-            cur = self.con.cursor()
-            rows = cur.execute('select * from 문제집')
-            for row in rows:
-                self.count += 1
-                self.dic[row[0]] = row[1]  # 문제,답 딕셔너리 만들기
-                # self.sock.send(f"question/{row[0]}/{row[1]}".encode())  # questione/(문제1,1)
-                self.answer_lst.append(row[1])
+    def solv_page(self): # 문제 페이지
+        self.sock.send("quiz/".encode())
+
         self.move_page('문제풀기')
 
-    def uploadques(self):
-        self.workbook=0
-        # 서버에서 데이터 받아서 올리기
-        with self.con:
-            cur = self.con.cursor()
-            rows = cur.execute(f'select * from 문제집')
-            # insertrow = cur.execute(f'insert into 문제집 values {}')
+    def uploadques(self): # 문제 업로드 하기
+        self.rowcounts=0
+        self.sock.send('quiz/'.encode())
 
-            for row in rows:
-                self.tableWidget_2.setRowCount((self.workbook + 1))
-                self.upload = list(row)
-                self.tableWidget_2.setItem(self.workbook, 0, QTableWidgetItem(self.upload[0]))
-                self.workbook += 1
-
-    def check_answer(self):
+        pass
+    def check_answer(self): # 답 비교하기 함수
         self.score=0
         self.wrong_answer.clear()
         self.check_browser.clear()
@@ -258,21 +292,22 @@ class MainStudent(QWidget, ui):
             answer_lst.append(value)
             print("답 쓴거:",answer_lst)
 
-            if self.answer_lst[i]==answer_lst[i]:
+            if self.answer_lst[i]==answer_lst[i]: # 답이 정답이면 스코어 증가 answer/문제 로 정답 메시지 보내기
                 self.score+=1
-                self.sock.send(f'answer/문제{i + 1}'.encode())
+                self.sock.send(f'mark/{i + 1}/o'.encode())
 
             else:
-                self.wrong_answer.append(i+1)
-                self.check_browser.append(f'문제{i+1} 오답')
-                self.sock.send(f'wrong/문제{i + 1}'.encode())
+                self.wrong_answer.append(i+1) # 답이 오답이면 스코어 증가 x wrong/문제로 오답 메시지 보내기
+                self.check_browser.append(f'{i+1} 오답')
+                self.sock.send(f'mark/{i + 1}/x'.encode())
 
-        self.lcdNumber.display(self.score)
+        self.lcdNumber.display(self.score) # lcd 위젯 점수 표시용
         # self.sock.send(f'{self.log}')
         print('final answer_lst: ', answer_lst)
         print(self.wrong_answer)
+        self.answer_lst.clear()
 
-    def save(self):
+    def save(self): # 작성한 문제 저장하기
         prob=[]
         ans=[]
         print(self.login_id)
@@ -291,7 +326,7 @@ class MainStudent(QWidget, ui):
                 item2= self.tableWidget_2.item(i,1)
                 value2 = item2.text()
             except:
-                value2=''
+                value2='' # 아무것도 적지 않으면 오류가 뜨기에 예외처리를 통해서 ''로 변경해주기
             prob.append(value1)
             ans.append(value2)
 
@@ -305,7 +340,7 @@ class MainStudent(QWidget, ui):
         #     cur=self.con.cursor()
         #     cur.execute('')
 
-    def load(self):
+    def load(self): # 불러오기
         i=0
         rowcount=0
         with self.con:

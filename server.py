@@ -62,8 +62,27 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('invite/'):  # invite/ name (초대)
             clnt_msg = clnt_msg.replace('invite/', '')
             invite(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('mark/'):
+            clnt_msg = clnt_msg.replace('mark/', '')
+            mark(clnt_num, clnt_msg)
         else:
             continue
+
+
+def mark(clnt_num, clnt_msg):
+    conn, cur = conn_DB()
+    print("채점 : ", clnt_msg)
+    check = clnt_msg.split('/')
+    if check[1]  == 'o':
+        check[1] = 100
+    else:
+        check[1] = 0
+    print("check : ", check)
+
+    cur.executemany("INSERT INTO learning(num, score) VALUES (?, ?)", (check,))
+    conn.commit()
+    conn.close()
+
 
 
 def chatting(clnt_num, clnt_msg):
@@ -189,8 +208,10 @@ def quiz_print(clnt_num, clnt_msg):
                 row = list(row)
                 row[0] = str(row[0])
                 row = '/'.join(row)
-                print(row)
+                row = 'quiz/' + row
                 clnt_sock.send(row.encode())
+                print(row)
+                time.sleep(0.1)
 
     else:
         print("권한없음")
