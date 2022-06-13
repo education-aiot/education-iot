@@ -65,6 +65,8 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('mark/'):
             clnt_msg = clnt_msg.replace('mark/', '')
             mark(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('avg/'):
+            quiz_avg(clnt_num)
         else:
             continue
 
@@ -250,7 +252,7 @@ def quiz_update(clnt_num, clnt_msg):
     conn.close()
 
 
-def quiz_avg(clnt_num, clnt_msg):
+def quiz_avg(clnt_num):
     conn, cur = conn_DB()
     clnt_sock = clnt_data[clnt_num][0]
     cur.execute("SELECT num, AVG(score) FROM learning GROUP BY num")
@@ -261,11 +263,12 @@ def quiz_avg(clnt_num, clnt_msg):
     else:
         for row in rows:
             row = list(row)
-            row[0] = str(row[0])
+            row[1] = str(row[1])
             row = '/'.join(row)
             print(row)
             clnt_sock.send(row.encode())
-
+            time.sleep(0.1)
+    clnt_sock.send("end_avg".encode())
     conn.close()
 
 
