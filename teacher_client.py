@@ -66,7 +66,8 @@ class MainStudent(QWidget, ui):
         #학생 통계확인 버튼
         self.avg_btn.clicked.connect(self.score_renew)
 
-    def receive_messages(self, sock):  # 메시지 받기
+    # 메시지 받기
+    def receive_messages(self, sock):
         global con
         while True:
             recv_message = sock.recv(4096)
@@ -90,9 +91,8 @@ class MainStudent(QWidget, ui):
                 except:
                     pass
 
-
+            #서버에서 받을 qna 질문과 답변
             elif 'QnA/' in self.final_message:
-
                 self.qna = self.final_message.split('/')  # QnA/문제/답
                 print(self.qna)
                 columnname = ['번호', '질문', '답변', '학생이름', '선생님이름']
@@ -111,6 +111,7 @@ class MainStudent(QWidget, ui):
                 except:
                     pass
 
+            # 서버에서 받을 통계자료
             elif 'avg/' in self.final_message:
                 self.avg = self.final_message.split('/')
                 avg_info = ['문제번호', '정답률']
@@ -127,6 +128,7 @@ class MainStudent(QWidget, ui):
                 except:
                     pass
 
+            #상담방
             elif '채팅 초대' in self.final_message:
                 # QmessageBox로 yes or no 판별
                 invite=QMessageBox.question(self,"초대요청", "상담방에 초대받으셨습니다. ",QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)
@@ -150,20 +152,19 @@ class MainStudent(QWidget, ui):
                     pass
                 print(self.student)
 
-    #문제 불러오기
-
     #상담방 그만하기 버튼
     def quitmessage(self):
         self.sock.send('chat/그만하기'.encode())
         self.move_page('교사메인')
 
-    # 답변 보내기
+    # qna답변 보내기
     def sendqna(self):
         sendData = f'Question/{self.send_line_2.text()}'# 답변/질문번호 로 보내기
         self.sock.send(sendData.encode('utf-8'))
         self.send_line_2.clear()
 
-    def consult(self): #상담요청 버튼
+    # 상담요청 버튼
+    def consult(self):
         self.sock.send('name_list/'.encode())
         time.sleep(0.3)
         for i in range(len(self.student)):
@@ -181,14 +182,15 @@ class MainStudent(QWidget, ui):
             self.move_page('상담방')
             self.SN.clear()
 
-
-    def sendconsul(self): # 상담 메지시 보내기
+    # 상담 메시지 보내기
+    def sendconsul(self):
         sendDataa = f'chat/{self.login_id}/{self.lineEdit_3.text()}'
 
         self.sock.send(sendDataa.encode('utf-8'))
         self.lineEdit_3.clear()
 
-    def renew(self):  # 질문 페이지 새로고침
+    # qna페이지 새로고침
+    def renew(self):
         self.qnacount = 0
         self.sock.send('QnA/'.encode())
         columnname = ['번호', '질문', '답변', '학생이름', '선생님이름']
@@ -208,6 +210,7 @@ class MainStudent(QWidget, ui):
         self.i=0
         self.qna_table_2.clear()
 
+    # 문제업데이트 페이지 새로고침
     def update_renew(self):
         self.quizcount = 0
         self.sock.send('quiz/'.encode())
@@ -225,6 +228,7 @@ class MainStudent(QWidget, ui):
         self.i = 0
         self.update_table.clear()
 
+    # 점수화면 새로고침
     def score_renew(self):
         self.scorecount = 0
         self.sock.send('avg/'.encode())
@@ -284,7 +288,6 @@ class MainStudent(QWidget, ui):
         else:
             pass
 
-    # 교사구별?
     def SignUp(self):
         QMessageBox.information(self, '회원가입', '회원가입 성공!.')
         self.sign_pw = self.join_pw_edit.text()
