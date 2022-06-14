@@ -201,27 +201,25 @@ def quiz_print(clnt_num, clnt_msg):
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
 
-    if member == 'student':
-        cur.execute("SELECT * FROM Quiz")
-        rows = cur.fetchall()
-        if not rows:
-            print("퀴즈 없음")
-            clnt_sock.send("등록된 quiz 없음".encode())
 
-        else:
-            for row in rows:
-                row = list(row)
-                row[0] = str(row[0])
-                row = '/'.join(row)
-                row = 'quiz/' + row
-                clnt_sock.send(row.encode())
-                print(row)
-                time.sleep(0.1)
+    cur.execute("SELECT * FROM Quiz")
+    rows = cur.fetchall()
+    if not rows:
+        print("퀴즈 없음")
+        clnt_sock.send("등록된 quiz 없음".encode())
 
     else:
-        print("권한없음")
+        for row in rows:
+            row = list(row)
+            row[0] = str(row[0])
+            row = '/'.join(row)
+            row = 'quiz/' + row
+            clnt_sock.send(row.encode())
+            print(row)
+            time.sleep(0.1)
 
     conn.close()
+
 
 
 def quiz_result(clnt_num, clnt_msg):
