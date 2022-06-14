@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="login_page_2">
     <widget class="QWidget" name="layoutWidget">
@@ -1099,7 +1099,7 @@ background-color: rgb(91, 155, 213);
     <zorder>quit_btn</zorder>
     <zorder>label_10</zorder>
    </widget>
-   <widget class="QWidget" name="page_2">
+   <widget class="QWidget" name="consulting_page_2">
     <widget class="QLineEdit" name="lineEdit_3">
      <property name="geometry">
       <rect>
