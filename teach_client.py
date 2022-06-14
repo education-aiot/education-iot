@@ -16,13 +16,10 @@ class MainStudent(QWidget, ui):
         super().__init__()
         self.setupUi(self)
 
-        self.i = 0
-
-        self.aaa = 0
-
         # 질문 row 세기
         self.qnacount = 0
         self.quizcount = 0
+        self.i = 0
 
         #학생 목록
         self.SN = []
@@ -41,7 +38,6 @@ class MainStudent(QWidget, ui):
         self.send_line_2.returnPressed.connect(self.sendqna)
         self.teach_back_btn3_2.clicked.connect(lambda: self.move_page('교사메인'))
 
-
         #로그인, 회원가입 버튼
         self.overlap_btn.clicked.connect(self.overlapCheck)
         self.login_btn.clicked.connect(self.Login)
@@ -52,12 +48,14 @@ class MainStudent(QWidget, ui):
         self.update_btn.clicked.connect(lambda : self.move_page('업데이트'))
         self.score_btn.clicked.connect(lambda: self.move_page('점수확인'))
         self.qna_btn_2.clicked.connect(lambda: self.move_page('QnA/'))
-        self.consulting_btn_2.clicked.connect(lambda: self.move_page('상담방'))
+        self.consulting_btn_2.clicked.connect(self.consult)
         self.logout_btn.clicked.connect(lambda: self.move_page('로그아웃'))
 
         #문제 업데이트 버튼
         self.quiz_add_btn.clicked.connect(self.new_quiz)
-
+        self.quiz_renew_btn.clicked.connect(self.quiz_call)
+        #학생 통계확인 버튼
+        self.avg_btn.clicked.connect(self.score_view)
 
     def receive_messages(self, sock):  # 메시지 받기
         global con
@@ -73,10 +71,10 @@ class MainStudent(QWidget, ui):
                 self.update_table.setHorizontalHeaderLabels(quiz_info)
                 try:
                     self.update_table.setRowCount((self.quizcount + 1))
-                    self.update_table.setItem(self.quizcount, 0, QTableWidgetItem(self.quiz[1]))
-                    self.update_table.setItem(self.quizcount, 1, QTableWidgetItem(self.quiz[2]))
+                    self.update_table.setItem(self.quizcount, 0, QTableWidgetItem(self.quiz[2]))
+                    self.update_table.setItem(self.quizcount, 1, QTableWidgetItem(self.quiz[3]))
 
-                    self.qnacount += 1
+                    self.quizcount += 1
 
                 except:
                     pass
@@ -102,8 +100,11 @@ class MainStudent(QWidget, ui):
                     self.i += 1
                 except:
                     pass
+            elif '문제번호' in self.final_message:
+                pass
 
             elif '채팅 초대' in self.final_message:
+
 
                 # QmessageBox로 yes or no 판별
                 invite=QMessageBox.question(self,"초대요청", "상담방에 초대받으셨습니다. ",QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)
@@ -121,22 +122,23 @@ class MainStudent(QWidget, ui):
                 self.textBrowser.append(name + ':' + chat)
                 pass
             elif 'SN/' in self.final_message:
-                self.student = self.final_message.split('/')
+                try:
+                    self.student = self.final_message.split('/')
+                except:
+                    pass
                 print(self.student)
+
+    #문제 불러오기
+    def quiz_call(self):
+        self.sock.send('quiz/'.encode())
 
     #상담방 그만하기 버튼
     def quitmessage(self):
         self.sock.send('chat/그만하기'.encode())
         self.move_page('교사메인')
 
-    # 질문 받기
-    def recvqna(self):
-
-        pass
-
     # 답변 보내기
     def sendqna(self):
-        self.aaa += 1
         sendData = f'Question/{self.send_line_2.text()}'# 답변/질문번호 로 보내기
         self.sock.send(sendData.encode('utf-8'))
         self.send_line_2.clear()
@@ -290,13 +292,14 @@ class MainStudent(QWidget, ui):
 
 
         elif page == '상담방':
-            log, ok = QInputDialog.getText(self, '이름적는거', '상담할 학생 아이디:')
-            if ok:
-                self.sock.send(f'invite/{log}'.encode('utf-8'))
-                time.sleep(1)
-                self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
-            else:
-                self.move_page('교사메인')
+            self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
+            # log, ok = QInputDialog.getText(self, '이름적는거', '상담할 학생 아이디:')
+            # if ok:
+            #     self.sock.send(f'invite/{log}'.encode('utf-8'))
+            #     time.sleep(1)
+            #     self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
+            # else:
+            #     self.move_page('교사메인')
 
     # 문제 업데이트
     def new_quiz(self):
@@ -308,7 +311,9 @@ class MainStudent(QWidget, ui):
 
 
     # 점수확인(미완)
-    # def score_view(self):
+    def score_view(self):
+        self.sock.send('avg/'.encode())
+
         # rows = []
         # name = " "  # 서버에서 받을 학생 이름,점수
         # score = " "

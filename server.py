@@ -266,6 +266,7 @@ def quiz_avg(clnt_num):
             row = list(row)
             row[1] = str(row[1])
             row = '/'.join(row)
+            row = 'avg/' + row
             print(row)
             clnt_sock.send(row.encode())
             time.sleep(0.1)
