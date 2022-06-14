@@ -332,26 +332,10 @@ class MainStudent(QWidget, ui):
         #점수 확인 하고 싶은 학생 점수 요청?
         elif page == '점수확인':
             self.stackedWidget_2.setCurrentWidget(self.score_page)
-            # log, ok = QInputDialog.getText(self, '이름적는거', '점수 확인 할 학생 아이디:')
-            # if ok:
-            #     self.sock.send(f'invite/{log}'.encode('utf-8'))
-            #     time.sleep(1)
-            #     self.teacher_stacked.setCurrentWidget(self.score_page)
-            # else:
-            #     self.move_page('교사메인')
-
-            # self.score_view()
 
 
         elif page == '상담방':
             self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
-            # log, ok = QInputDialog.getText(self, '이름적는거', '상담할 학생 아이디:')
-            # if ok:
-            #     self.sock.send(f'invite/{log}'.encode('utf-8'))
-            #     time.sleep(1)
-            #     self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
-            # else:
-            #     self.move_page('교사메인')
 
     # 문제 업데이트
     def new_quiz(self):
@@ -360,23 +344,6 @@ class MainStudent(QWidget, ui):
         self.sock.send(f"{'update/' + self.newquiz + '/' + self.newanswer}".encode('utf-8'))
         self.newquiz_edit.clear()
         self.newanswer_edit.clear()
-
-
-
-        # rows = []
-        # name = " "  # 서버에서 받을 학생 이름,점수
-        # score = " "
-        # info = [name, score]
-        # for i in range(10):
-        #     rows.append(info[:])
-        # i = 0
-        # for row in range(len(rows)):
-        #     self.score_screen.setRowCount((i + 1))
-        #     score_data = rows[row]
-        #     self.score_screen.setItem(i, 0, QTableWidgetItem(score_data[0]))
-        #     self.score_screen.setItem(i, 1, QTableWidgetItem(score_data[1]))
-        #     i += 1
-
 
 if __name__ == '__main__':
     # Data()
