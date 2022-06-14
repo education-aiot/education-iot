@@ -29,8 +29,10 @@ class MainStudent(QWidget, ui):
         self.sock = socket(AF_INET, SOCK_STREAM)
         self.sock.connect(('127.0.0.1', 9121))
 
-        # qna 테이블위젯 크기조정
+        # 테이블위젯 크기조정
         self.qna_table_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.update_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.score_screen.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         #상담방 버튼
         self.quit_btn_2.clicked.connect(self.quitmessage)
@@ -186,20 +188,6 @@ class MainStudent(QWidget, ui):
         self.sock.send(sendDataa.encode('utf-8'))
         self.lineEdit_3.clear()
 
-    # def sendconsul(self):
-    #     sendData = f'chat/{self.login_id}/{self.lineEdit.text()}'
-    #     self.sock.send(sendData.encode('utf-8'))
-    #     self.lineEdit.clear()
-    #
-    # def invitemessage(self):
-    #     sendData = f'invite/'
-    #     self.sock.send('invite/'.encode('utf-8'))
-    #
-    # def invitemess(self):
-    #     sendData = f'chat/{self.lineEdit.text()}'
-    #     self.sock.send(sendData.encode('utf-8'))
-    #     self.move_page('상담방')
-
     def renew(self):  # 질문 페이지 새로고침
         self.qnacount = 0
         self.sock.send('QnA/'.encode())
@@ -345,7 +333,6 @@ class MainStudent(QWidget, ui):
         self.sock.send(f"{'update/' + self.newquiz + '/' + self.newanswer}".encode('utf-8'))
         self.newquiz_edit.clear()
         self.newanswer_edit.clear()
-
 
 if __name__ == '__main__':
     # Data()
