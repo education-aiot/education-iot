@@ -211,8 +211,8 @@
     <widget class="QPushButton" name="solv_btn">
      <property name="geometry">
       <rect>
-       <x>261</x>
-       <y>270</y>
+       <x>260</x>
+       <y>260</y>
        <width>120</width>
        <height>120</height>
       </rect>
@@ -221,24 +221,11 @@
       <string>문제풀기</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="consulting_btn">
-     <property name="geometry">
-      <rect>
-       <x>547</x>
-       <y>270</y>
-       <width>120</width>
-       <height>120</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>상담요청</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="qna_btn">
      <property name="geometry">
       <rect>
-       <x>404</x>
-       <y>270</y>
+       <x>420</x>
+       <y>260</y>
        <width>120</width>
        <height>120</height>
       </rect>
@@ -250,8 +237,8 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>690</x>
-       <y>270</y>
+       <x>740</x>
+       <y>260</y>
        <width>120</width>
        <height>120</height>
       </rect>
@@ -263,8 +250,8 @@
     <widget class="QPushButton" name="study_btn">
      <property name="geometry">
       <rect>
-       <x>117</x>
-       <y>270</y>
+       <x>100</x>
+       <y>260</y>
        <width>120</width>
        <height>120</height>
       </rect>
@@ -274,13 +261,26 @@
 공부하기</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="consulting_btn">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>260</y>
+       <width>121</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>상담요청</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="teacher_main_page">
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
        <x>120</x>
-       <y>10</y>
+       <y>20</y>
        <width>151</width>
        <height>17</height>
       </rect>
@@ -321,7 +321,7 @@
          <x>20</x>
          <y>110</y>
          <width>601</width>
-         <height>251</height>
+         <height>401</height>
         </rect>
        </property>
        <column>
@@ -335,14 +335,89 @@
         </property>
        </column>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="newquiz_edit">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>390</y>
-         <width>601</width>
+         <x>60</x>
+         <y>520</y>
+         <width>371</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="newanswer_edit">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>520</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>520</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>정답:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>520</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>문제:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="quiz_add_btn">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>570</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>문제추가</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="quiz_renew_btn">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>570</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>새로고침
+아직연결x</string>
        </property>
       </widget>
      </widget>
@@ -374,21 +449,21 @@
        </property>
        <column>
         <property name="text">
-         <string>NAME</string>
+         <string>문제번호</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>SCORE</string>
+         <string>정답률</string>
         </property>
        </column>
       </widget>
       <widget class="QWidget" name="gridLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>270</x>
-         <y>70</y>
-         <width>291</width>
+         <x>320</x>
+         <y>80</y>
+         <width>281</width>
          <height>221</height>
         </rect>
        </property>
@@ -397,9 +472,9 @@
       <widget class="QWidget" name="gridLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>270</x>
-         <y>300</y>
-         <width>291</width>
+         <x>320</x>
+         <y>310</y>
+         <width>281</width>
          <height>231</height>
         </rect>
        </property>
@@ -413,21 +488,21 @@
        <x>720</x>
        <y>50</y>
        <width>142</width>
-       <height>521</height>
+       <height>621</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="update_btn">
         <property name="text">
-         <string>문제 update</string>
+         <string>문제 업데이트</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="score_btn">
         <property name="text">
-         <string>학생점수확인 및 통계</string>
+         <string>점수확인 및 통계</string>
         </property>
        </widget>
       </item>
@@ -441,7 +516,7 @@
       <item>
        <widget class="QPushButton" name="consulting_btn_2">
         <property name="text">
-         <string>상담요청?</string>
+         <string>상담요청</string>
         </property>
        </widget>
       </item>
@@ -472,9 +547,9 @@
     <widget class="QLineEdit" name="send_line">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>620</y>
-       <width>711</width>
+       <width>721</width>
        <height>41</height>
       </rect>
      </property>
@@ -593,9 +668,9 @@
     <widget class="QLineEdit" name="send_line_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>620</y>
-       <width>711</width>
+       <width>721</width>
        <height>41</height>
       </rect>
      </property>
@@ -625,6 +700,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>670</y>
+       <width>181</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>답변/질문번호 로 써서보내기</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="consulting_page">
@@ -790,8 +878,8 @@
     <widget class="QPushButton" name="stu_back_btn">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>10</y>
+       <x>850</x>
+       <y>20</y>
        <width>89</width>
        <height>31</height>
       </rect>
@@ -845,7 +933,7 @@
       <rect>
        <x>490</x>
        <y>50</y>
-       <width>162</width>
+       <width>161</width>
        <height>41</height>
       </rect>
      </property>
@@ -878,20 +966,20 @@
     <widget class="QTextBrowser" name="check_browser">
      <property name="geometry">
       <rect>
-       <x>655</x>
-       <y>460</y>
-       <width>281</width>
-       <height>192</height>
+       <x>660</x>
+       <y>120</y>
+       <width>151</width>
+       <height>531</height>
       </rect>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>650</x>
+       <x>810</x>
        <y>90</y>
        <width>131</width>
-       <height>361</height>
+       <height>561</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -931,6 +1019,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>90</y>
+       <width>67</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Check</string>
+     </property>
     </widget>
    </widget>
   </widget>

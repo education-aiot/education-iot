@@ -56,6 +56,9 @@ def handle_clnt(clnt_sock):
         elif clnt_msg.startswith('quiz/'):
             clnt_msg = clnt_msg.replace('quiz/', '')
             quiz_print(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('update/'):  # 문제 업데이트
+            clnt_msg = clnt_msg.replace('update/', '')
+            quiz_update(clnt_num, clnt_msg)
         elif clnt_msg.startswith('name_list/'): ## 수정 
             clnt_msg = clnt_msg.replace('name_list/', '') ## 수정 
             show_list(clnt_num)  # 학생이면 >> 선생님들 list 보냄 // 선생님이면 >> 학생 list 보냄
