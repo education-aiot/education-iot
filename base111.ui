@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
@@ -7,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>991</width>
-    <height>729</height>
+    <width>965</width>
+    <height>693</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +16,10 @@
   <widget class="QStackedWidget" name="stackedWidget_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>0</x>
+     <y>-10</y>
      <width>971</width>
-     <height>711</height>
+     <height>691</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -30,10 +29,10 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>301</x>
-       <y>210</y>
-       <width>291</width>
-       <height>161</height>
+       <x>310</x>
+       <y>230</y>
+       <width>341</width>
+       <height>171</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -199,37 +198,110 @@
     <widget class="QLabel" name="label_29">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>20</y>
-       <width>131</width>
-       <height>17</height>
+       <x>470</x>
+       <y>50</y>
+       <width>261</width>
+       <height>71</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>나눔손글씨 붓</family>
+       <pointsize>30</pointsize>
+       <weight>9</weight>
+       <italic>true</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 italic 30pt &quot;나눔손글씨 붓&quot;;
+</string>
+     </property>
      <property name="text">
-      <string>학생용 클라이언트</string>
+      <string>Student Main Page</string>
      </property>
     </widget>
     <widget class="QPushButton" name="solv_btn">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>260</y>
-       <width>120</width>
-       <height>120</height>
+       <x>671</x>
+       <y>144</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: rgb(255, 255, 255);
+border: 2px solid rgb(58, 134, 255);
+border-radius:75px;
+border: 2px solid rgb(91, 155, 213);
+}
+
+QPushButton:hover{
+
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+
+}</string>
      </property>
      <property name="text">
       <string>문제풀기</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="consulting_btn">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>429</y>
+       <width>151</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: rgb(255, 255,255);
+border-radius:75px;
+	color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+}
+
+QPushButton:hover{
+
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
+     </property>
+     <property name="text">
+      <string>상담요청</string>
+     </property>
+    </widget>
     <widget class="QPushButton" name="qna_btn">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>260</y>
-       <width>120</width>
-       <height>120</height>
+       <x>380</x>
+       <y>430</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color: rgb(255, 255, 255);
+
+border-radius:75px;
+	color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+}
+
+QPushButton:hover{
+
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string>Q &amp;&amp; A</string>
@@ -238,50 +310,149 @@
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>740</x>
-       <y>260</y>
-       <width>120</width>
-       <height>120</height>
+       <x>-1</x>
+       <y>37</y>
+       <width>41</width>
+       <height>61</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: rgb(238, 238, 236);
+border-radius:45px;
+	
+	color: rgb(46, 52, 54);
+}
+
+QPushButton:hover{
+
+
+background-color: rgb(91,155,213);
+}</string>
+     </property>
      <property name="text">
-      <string>로그아웃</string>
+      <string>log
+out</string>
      </property>
     </widget>
     <widget class="QPushButton" name="study_btn">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>260</y>
-       <width>120</width>
-       <height>120</height>
+       <x>380</x>
+       <y>143</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+	
+
+	background-color: rgb(255, 255, 255);
+border-radius:75px;
+
+}
+
+QPushButton:hover{
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string>학습자료
 공부하기</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="consulting_btn">
+    <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>580</x>
-       <y>260</y>
-       <width>121</width>
-       <height>121</height>
+       <x>100</x>
+       <y>60</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bodoni MT</family>
+       <pointsize>44</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="stumain">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>991</width>
+       <height>701</height>
       </rect>
      </property>
      <property name="text">
-      <string>상담요청</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/stu_main.png</pixmap>
      </property>
     </widget>
+    <widget class="QLabel" name="stumainbtn">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>130</y>
+       <width>531</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/화면 캡처 2022-06-13 222549.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="stumainbtn2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>410</y>
+       <width>531</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/화면 캡처 2022-06-13 222549.png</pixmap>
+     </property>
+    </widget>
+    <zorder>stumain</zorder>
+    <zorder>stumainbtn</zorder>
+    <zorder>stumainbtn2</zorder>
+    <zorder>label_29</zorder>
+    <zorder>label_3</zorder>
+    <zorder>pushButton_2</zorder>
+    <zorder>qna_btn</zorder>
+    <zorder>solv_btn</zorder>
+    <zorder>study_btn</zorder>
+    <zorder>consulting_btn</zorder>
    </widget>
    <widget class="QWidget" name="teacher_main_page">
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>20</y>
+       <x>180</x>
+       <y>0</y>
        <width>151</width>
        <height>17</height>
       </rect>
@@ -290,323 +461,181 @@
       <string>교사용 클라이언트</string>
      </property>
     </widget>
-    <widget class="QStackedWidget" name="teacher_stacked">
+    <widget class="QPushButton" name="update_btn">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>40</y>
-       <width>641</width>
-       <height>661</height>
-      </rect>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <widget class="QWidget" name="update_page">
-      <widget class="QLabel" name="label">
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>40</y>
-         <width>191</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>문제 업데이트</string>
-       </property>
-      </widget>
-      <widget class="QTableWidget" name="update_table">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>110</y>
-         <width>601</width>
-         <height>401</height>
-        </rect>
-       </property>
-       <column>
-        <property name="text">
-         <string>문제</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>정답</string>
-        </property>
-       </column>
-      </widget>
-      <widget class="QLineEdit" name="newquiz_edit">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>520</y>
-         <width>371</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="newanswer_edit">
-       <property name="geometry">
-        <rect>
-         <x>480</x>
-         <y>520</y>
-         <width>141</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>430</x>
-         <y>520</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>정답:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_6">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>520</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>문제:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="quiz_add_btn">
-       <property name="geometry">
-        <rect>
-         <x>530</x>
-         <y>570</y>
-         <width>91</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>문제추가</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="quiz_renew_btn">
-       <property name="geometry">
-        <rect>
-         <x>430</x>
-         <y>570</y>
-         <width>91</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>새로고침</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="score_page">
-      <widget class="QLabel" name="label_2">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>30</y>
-         <width>201</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>학생점수 확인 및 통계</string>
-       </property>
-      </widget>
-      <widget class="QTableWidget" name="score_screen">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>80</y>
-         <width>221</width>
-         <height>461</height>
-        </rect>
-       </property>
-       <property name="dragEnabled">
-        <bool>false</bool>
-       </property>
-       <column>
-        <property name="text">
-         <string>문제번호</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>정답률</string>
-        </property>
-       </column>
-      </widget>
-      <widget class="QWidget" name="gridLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>320</x>
-         <y>80</y>
-         <width>281</width>
-         <height>221</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_2"/>
-      </widget>
-      <widget class="QWidget" name="gridLayoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>320</x>
-         <y>310</y>
-         <width>281</width>
-         <height>231</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_5"/>
-      </widget>
-      <widget class="QPushButton" name="avg_btn">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>560</y>
-         <width>91</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>통계확인</string>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>720</x>
-       <y>50</y>
-       <width>142</width>
-       <height>621</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QPushButton" name="update_btn">
-        <property name="text">
-         <string>문제 업데이트</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="score_btn">
-        <property name="text">
-         <string>점수확인 및 통계</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="qna_btn_2">
-        <property name="text">
-         <string> Q &amp;&amp; A</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="consulting_btn_2">
-        <property name="text">
-         <string>상담요청</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="logout_btn">
-        <property name="text">
-         <string>로그아웃</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="qna_page_2">
-    <widget class="QLabel" name="label_31">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
+       <x>150</x>
+       <y>280</y>
+       <width>95</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>학생용 Q&amp;A</string>
+      <string>문제 업데이트</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="send_line">
+    <widget class="QPushButton" name="score_btn">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>620</y>
-       <width>721</width>
+       <x>280</x>
+       <y>280</y>
+       <width>112</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>점수확인 및 통계</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="qna_btn_2">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>280</y>
+       <width>80</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string> Q &amp;&amp; A</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="consulting_btn_2">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>280</y>
+       <width>80</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>상담요청</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="logout_btn">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>280</y>
+       <width>80</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>로그아웃</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="update_page">
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>110</y>
+       <width>191</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>문제 업데이트</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="newanswer_edit">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>590</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>590</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>정답:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="newquiz_edit">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>590</y>
+       <width>371</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="quiz_renew_btn">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>640</y>
+       <width>91</width>
        <height>41</height>
       </rect>
      </property>
+     <property name="text">
+      <string>새로고침</string>
+     </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QLabel" name="label_13">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>290</y>
-       <width>91</width>
-       <height>111</height>
+       <x>160</x>
+       <y>590</y>
+       <width>41</width>
+       <height>31</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QPushButton" name="qna_renew">
-        <property name="text">
-         <string>새로고침</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="stu_back_btn3">
-        <property name="text">
-         <string>메인으로</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="text">
+      <string>문제:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
     </widget>
-    <widget class="QTableWidget" name="qna_table">
+    <widget class="QTableWidget" name="update_table">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>721</width>
-       <height>531</height>
+       <x>170</x>
+       <y>180</y>
+       <width>601</width>
+       <height>401</height>
       </rect>
      </property>
-     <column>
-      <property name="text">
-       <string>번호</string>
-      </property>
-     </column>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
      <column>
       <property name="text">
        <string>문제</string>
@@ -614,27 +643,277 @@
      </column>
      <column>
       <property name="text">
-       <string>답변</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>질문학생</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>선생님</string>
+       <string>정답</string>
       </property>
      </column>
     </widget>
+    <widget class="QPushButton" name="quiz_add_btn">
+     <property name="geometry">
+      <rect>
+       <x>680</x>
+       <y>640</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>문제추가</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="update_back_btn">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>640</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>메인으로</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="score_page">
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>110</y>
+       <width>281</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2"/>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>60</y>
+       <width>201</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>학생점수 확인 및 통계</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="avg_btn">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>590</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>통계확인</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>340</y>
+       <width>281</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5"/>
+    </widget>
+    <widget class="QTableWidget" name="score_screen">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>110</y>
+       <width>211</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="dragEnabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>문제번호</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>정답률</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="score_back_btn">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>610</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>메인으로</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="qna_page_2">
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>50</y>
+       <width>131</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>19</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Q&amp;A</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="send_line">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>590</y>
+       <width>721</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="qna_table">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>140</y>
+       <width>721</width>
+       <height>411</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableWidget{
+
+
+}</string>
+     </property>
+     <column>
+      <property name="text">
+       <string>Number</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Question</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Answer</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Student-name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Teacher-name</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="qna_renew">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>560</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>새로고침</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="stu_back_btn3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>620</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>메인으로</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="stuqna">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1001</width>
+       <height>701</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/stu_QnA.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>60</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bodoni MT</family>
+       <pointsize>44</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+    <zorder>stuqna</zorder>
+    <zorder>label_31</zorder>
+    <zorder>send_line</zorder>
+    <zorder>qna_table</zorder>
+    <zorder>qna_renew</zorder>
+    <zorder>stu_back_btn3</zorder>
+    <zorder>label_7</zorder>
    </widget>
    <widget class="QWidget" name="teach_qna_page">
     <widget class="QLabel" name="label_32">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>30</y>
+       <x>60</x>
+       <y>50</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -643,47 +922,12 @@
       <string>교사용 Q&amp;A</string>
      </property>
     </widget>
-    <widget class="QTableWidget" name="qna_table_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>721</width>
-       <height>531</height>
-      </rect>
-     </property>
-     <column>
-      <property name="text">
-       <string>번호</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>문제</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>답변</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>질문학생</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>선생님</string>
-      </property>
-     </column>
-    </widget>
     <widget class="QLineEdit" name="send_line_2">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>220</x>
        <y>620</y>
-       <width>721</width>
+       <width>711</width>
        <height>41</height>
       </rect>
      </property>
@@ -691,8 +935,8 @@
     <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>290</y>
+       <x>120</x>
+       <y>530</y>
        <width>91</width>
        <height>111</height>
       </rect>
@@ -717,8 +961,8 @@
     <widget class="QLabel" name="label_8">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>670</y>
+       <x>420</x>
+       <y>590</y>
        <width>181</width>
        <height>31</height>
       </rect>
@@ -727,26 +971,67 @@
       <string>답변/질문번호 로 써서보내기</string>
      </property>
     </widget>
+    <widget class="QTableWidget" name="qna_table_2">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>70</y>
+       <width>721</width>
+       <height>511</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableWidget{
+
+
+}</string>
+     </property>
+     <column>
+      <property name="text">
+       <string>Number</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Question</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Answer</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Student-name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Teacher-name</string>
+      </property>
+     </column>
+    </widget>
    </widget>
    <widget class="QWidget" name="consulting_page">
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>70</y>
+       <x>230</x>
+       <y>40</y>
        <width>211</width>
        <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>학생용상담방</string>
+      <string>일대일상담</string>
      </property>
     </widget>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>90</y>
+       <x>220</x>
+       <y>70</y>
        <width>711</width>
        <height>521</height>
       </rect>
@@ -755,7 +1040,7 @@
     <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>220</x>
        <y>620</y>
        <width>711</width>
        <height>41</height>
@@ -765,8 +1050,8 @@
     <widget class="QPushButton" name="quit_btn">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>90</y>
+       <x>60</x>
+       <y>580</y>
        <width>111</width>
        <height>41</height>
       </rect>
@@ -775,36 +1060,61 @@
       <string>그만하기</string>
      </property>
     </widget>
+    <widget class="QLabel" name="stuconsult">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1061</width>
+       <height>711</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/stu_consult.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>50</y>
+       <width>111</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/consultpng-removebg-preview.png</pixmap>
+     </property>
+    </widget>
+    <zorder>stuconsult</zorder>
+    <zorder>label_4</zorder>
+    <zorder>textBrowser</zorder>
+    <zorder>lineEdit</zorder>
+    <zorder>quit_btn</zorder>
+    <zorder>label_10</zorder>
    </widget>
    <widget class="QWidget" name="consulting_page_2">
     <widget class="QLineEdit" name="lineEdit_3">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>620</y>
+       <x>50</x>
+       <y>610</y>
        <width>711</width>
        <height>41</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>211</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>교사용상담방</string>
-     </property>
-    </widget>
     <widget class="QTextBrowser" name="textBrowser_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>90</y>
+       <x>50</x>
+       <y>80</y>
        <width>711</width>
        <height>521</height>
       </rect>
@@ -813,8 +1123,8 @@
     <widget class="QPushButton" name="quit_btn_2">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>90</y>
+       <x>800</x>
+       <y>80</y>
        <width>111</width>
        <height>41</height>
       </rect>
@@ -823,12 +1133,25 @@
       <string>그만하기</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>60</y>
+       <width>211</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>교사용상담방</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="student_page1">
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>370</x>
+       <x>40</x>
        <y>10</y>
        <width>141</width>
        <height>31</height>
@@ -841,10 +1164,10 @@
     <widget class="QTableWidget" name="tableWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>921</width>
-       <height>599</height>
+       <x>200</x>
+       <y>40</y>
+       <width>741</width>
+       <height>621</height>
       </rect>
      </property>
      <column>
@@ -891,8 +1214,8 @@
     <widget class="QPushButton" name="stu_back_btn">
      <property name="geometry">
       <rect>
-       <x>850</x>
-       <y>20</y>
+       <x>70</x>
+       <y>600</y>
        <width>89</width>
        <height>31</height>
       </rect>
@@ -901,13 +1224,56 @@
       <string>돌아가기</string>
      </property>
     </widget>
+    <widget class="QLabel" name="stulearn">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1041</width>
+       <height>701</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/stu_learn.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>70</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bodoni MT</family>
+       <pointsize>44</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+    <zorder>stulearn</zorder>
+    <zorder>label_11</zorder>
+    <zorder>tableWidget</zorder>
+    <zorder>stu_back_btn</zorder>
+    <zorder>label_14</zorder>
    </widget>
    <widget class="QWidget" name="student_quiz">
     <widget class="QLabel" name="label_12">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>50</y>
+       <x>210</x>
+       <y>40</y>
        <width>171</width>
        <height>41</height>
       </rect>
@@ -924,10 +1290,10 @@
     <widget class="QTableWidget" name="tableWidget_2">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>340</x>
        <y>90</y>
-       <width>621</width>
-       <height>561</height>
+       <width>601</width>
+       <height>591</height>
       </rect>
      </property>
      <column>
@@ -944,8 +1310,8 @@
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>490</x>
-       <y>50</y>
+       <x>780</x>
+       <y>40</y>
        <width>162</width>
        <height>41</height>
       </rect>
@@ -963,46 +1329,64 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="timeout_label">
+    <widget class="QLabel" name="stusol">
      <property name="geometry">
       <rect>
-       <x>370</x>
-       <y>50</y>
-       <width>111</width>
-       <height>41</height>
+       <x>0</x>
+       <y>0</y>
+       <width>1051</width>
+       <height>701</height>
       </rect>
      </property>
      <property name="text">
-      <string>시간</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/stu_quiz.png</pixmap>
      </property>
     </widget>
     <widget class="QTextBrowser" name="check_browser">
      <property name="geometry">
       <rect>
-       <x>660</x>
-       <y>120</y>
-       <width>151</width>
-       <height>531</height>
+       <x>200</x>
+       <y>490</y>
+       <width>141</width>
+       <height>191</height>
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QLabel" name="label_17">
      <property name="geometry">
       <rect>
-       <x>810</x>
-       <y>90</y>
-       <width>131</width>
-       <height>561</height>
+       <x>100</x>
+       <y>60</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bodoni MT</family>
+       <pointsize>44</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>490</y>
+       <width>160</width>
+       <height>201</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QPushButton" name="save_btn">
-        <property name="text">
-         <string>저장하기</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QPushButton" name="load_btn">
         <property name="text">
@@ -1013,7 +1397,7 @@
       <item>
        <widget class="QPushButton" name="randchoice_btn">
         <property name="text">
-         <string>문제업로드</string>
+         <string>새로고침</string>
         </property>
        </widget>
       </item>
@@ -1021,6 +1405,13 @@
        <widget class="QPushButton" name="check_ans_btn">
         <property name="text">
          <string>채점하기</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="save_btn">
+        <property name="text">
+         <string>저장하기</string>
         </property>
        </widget>
       </item>
@@ -1033,19 +1424,13 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>660</x>
-       <y>90</y>
-       <width>67</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Check</string>
-     </property>
-    </widget>
+    <zorder>stusol</zorder>
+    <zorder>label_12</zorder>
+    <zorder>horizontalLayoutWidget</zorder>
+    <zorder>check_browser</zorder>
+    <zorder>label_17</zorder>
+    <zorder>tableWidget_2</zorder>
+    <zorder>verticalLayoutWidget</zorder>
    </widget>
   </widget>
  </widget>

@@ -10,7 +10,8 @@ lock = threading.Lock()
 clnt_data = []  # 접속한 클라이언트 정보 대입
 clnt_cnt = 0  # 접속한 클라이언트 수
 chat = 1      # 채팅방 번호
-
+accept = -1
+accept2 = -1
 
 def conn_DB():
     conn = sqlite3.connect('edu.db')  # DB 연결
@@ -43,6 +44,8 @@ def handle_clnt(clnt_sock):
             clnt_msg = clnt_msg.replace('login/', '')
             print(clnt_msg)
             login(clnt_num, clnt_msg)
+        elif accept >= 0:
+            acceptance(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):  ## 수정
             if clnt_data[clnt_num][2] != 0:  # 초기의 채팅방 상태는 0
                 chatting(clnt_num, clnt_msg)
@@ -102,25 +105,37 @@ def chatting(clnt_num, clnt_msg):
             clnt_data[i][0].send(clnt_msg.encode())  # 자신과 상대한테 for문 돌면서 전송
 
 
+
 def invite(clnt_num, clnt_msg):
-    global chat
+    global accept
+    global accept2
     clnt_sock = clnt_data[clnt_num][0] # my
     name = clnt_msg
     for i in range(0, clnt_cnt):
         if clnt_data[i][5] == name: #you_name
             clnt_data[i][0].send('채팅 초대'.encode())
+            accept = i
+            accept2 = clnt_num
+            print("accept: ", accept)
+            print("clnt_num : ", clnt_num)
             print('초대보내기')
             break
 
-    recv_msg = clnt_data[i][0].recv(BUF_SIZE) # you.recv
-    recv_msg = recv_msg.decode()
-    if recv_msg == 'yes':
-        clnt_sock.send('수락'.encode())
-        clnt_data[i][2] = chat
-        clnt_data[clnt_num][2] = chat
+
+
+def acceptance(clnt_num, clnt_msg):
+    global chat, accept, accept2
+    print(clnt_msg)
+    clnt_sock = clnt_data[clnt_num][0]
+    if clnt_msg == 'yes':
+        clnt_data[accept2][0].send('수락'.encode())
+        clnt_data[accept][2] = chat
+        clnt_data[accept2][2] = chat
         chat += 1
+        accept = -1
+        accept2 = -1
     else:
-        clnt_sock.send('거절'.encode())
+        clnt_data[accept2][0].send('거절'.encode())
         
 
 
