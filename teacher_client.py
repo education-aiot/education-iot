@@ -27,13 +27,15 @@ class MainStudent(QWidget, ui):
         self.SN = []
 
         self.sock = socket(AF_INET, SOCK_STREAM)
-        self.sock.connect(('127.0.0.1', 8448))
+        self.sock.connect(('127.0.0.1', 9121))
 
         # qna 테이블위젯 크기조정
         self.qna_table_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         #상담방 버튼
         self.quit_btn_2.clicked.connect(self.quitmessage)
+        self.lineEdit_3.returnPressed.connect(self.sendconsul)
+
 
         #qna 버튼
         self.qna_renew_2.clicked.connect(self.renew)
@@ -137,7 +139,7 @@ class MainStudent(QWidget, ui):
             elif 'chat/' in self.final_message:
                 name = self.final_message.split('/')[-2]
                 chat = self.final_message.split('/')[-1]
-                self.textBrowser.append(name + ':' + chat)
+                self.textBrowser_2.append(name + ':' + chat)
                 pass
             elif 'SN/' in self.final_message:
                 try:
@@ -179,10 +181,10 @@ class MainStudent(QWidget, ui):
 
 
     def sendconsul(self): # 상담 메지시 보내기
-        sendDataa = f'chat/{self.login_id}/{self.lineEdit.text()}'
+        sendDataa = f'chat/{self.login_id}/{self.lineEdit_3.text()}'
 
         self.sock.send(sendDataa.encode('utf-8'))
-        self.lineEdit.clear()
+        self.lineEdit_3.clear()
 
     # def sendconsul(self):
     #     sendData = f'chat/{self.login_id}/{self.lineEdit.text()}'
@@ -333,7 +335,6 @@ class MainStudent(QWidget, ui):
         elif page == '점수확인':
             self.stackedWidget_2.setCurrentWidget(self.score_page)
 
-
         elif page == '상담방':
             self.stackedWidget_2.setCurrentWidget(self.consulting_page_2)
 
@@ -344,6 +345,7 @@ class MainStudent(QWidget, ui):
         self.sock.send(f"{'update/' + self.newquiz + '/' + self.newanswer}".encode('utf-8'))
         self.newquiz_edit.clear()
         self.newanswer_edit.clear()
+
 
 if __name__ == '__main__':
     # Data()
