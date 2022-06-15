@@ -44,6 +44,8 @@ def handle_clnt(clnt_sock):
             clnt_msg = clnt_msg.replace('login/', '')
             print(clnt_msg)
             login(clnt_num, clnt_msg)
+        elif clnt_msg.startswith('logout/'):
+            logout(clnt_num)
         elif accept >= 0: 
             acceptance(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):  ## 수정
@@ -79,6 +81,22 @@ def handle_clnt(clnt_sock):
         else:
             continue
 
+
+'''
+def logout(clnt_num):
+    global clnt_cnt
+    clnt_sock = clnt_data[clnt_num][0]
+    
+    for i in range(0, clnt_cnt):
+        if clnt_sock == clnt_data[i][0]:
+            while i < clnt_cnt - 1:
+                clnt_data[i] = clnt_data[i + 1]
+                i += 1
+            if i == clnt_cnt-1:
+                clnt_data.pop()
+            break
+    clnt_cnt -= 1
+'''
 
 
 def pw_change(clnt_num,clnt_msg):
@@ -309,7 +327,7 @@ def quiz_avg(clnt_num):
     else:
         for row in rows:
             row = list(row)
-            row[1] = str(row[1])
+            row[1] = str(int(row[1]))
             row = '/'.join(row)
             row = 'avg/' + row
             print(row)
