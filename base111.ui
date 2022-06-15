@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>965</width>
-    <height>693</height>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>-10</y>
+     <y>0</y>
      <width>971</width>
      <height>691</height>
     </rect>
@@ -101,6 +101,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QPushButton" name="pwchangebtn">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>420</y>
+       <width>89</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>비밀번호변경</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="register_page_2">
@@ -675,17 +688,6 @@ background-color: rgb(91, 155, 213);
     </widget>
    </widget>
    <widget class="QWidget" name="score_page">
-    <widget class="QWidget" name="gridLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>110</y>
-       <width>281</width>
-       <height>221</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2"/>
-    </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
@@ -711,17 +713,6 @@ background-color: rgb(91, 155, 213);
      <property name="text">
       <string>통계확인</string>
      </property>
-    </widget>
-    <widget class="QWidget" name="gridLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>340</y>
-       <width>281</width>
-       <height>231</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_5"/>
     </widget>
     <widget class="QTableWidget" name="score_screen">
      <property name="geometry">
@@ -764,6 +755,17 @@ background-color: rgb(91, 155, 213);
      <property name="text">
       <string>메인으로</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>150</y>
+       <width>391</width>
+       <height>341</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout"/>
     </widget>
    </widget>
    <widget class="QWidget" name="qna_page_2">
@@ -1432,6 +1434,7 @@ background-color: rgb(91, 155, 213);
     <zorder>tableWidget_2</zorder>
     <zorder>verticalLayoutWidget</zorder>
    </widget>
+   <widget class="QWidget" name="page"/>
   </widget>
  </widget>
  <resources/>
