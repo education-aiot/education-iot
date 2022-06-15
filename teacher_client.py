@@ -85,11 +85,33 @@ class MainStudent(QWidget, ui):
         self.aaa2 = self.aaa.add_subplot()
         self.aaa3 = animation.FuncAnimation(self.aaa, self.animate, interval=1000, blit=False)
 
+        teaqna = QPixmap()
+        teaqna.load('/home/ai2022/PycharmProjects/1_project/png/stu_QnA.png')
+        self.teaqna.setPixmap(teaqna)
 
+        teaconsul= QPixmap()
+        teaconsul.load('/home/ai2022/PycharmProjects/1_project/png/stu_consult.png')
+        self.teaconsul.setPixmap(teaconsul)
 
-        # teaqna = QPixmap()
-        # teaqna.load('/home/psj/바탕화면/python/png/stu_QnA.png')
-        # self.teaqna.setPixmap(teaqna)
+        teaupdate = QPixmap()
+        teaupdate.load('/home/ai2022/PycharmProjects/1_project/png/stu_quiz.png')
+        self.teaupdate.setPixmap(teaupdate)
+
+        scorepage = QPixmap()
+        scorepage.load('/home/ai2022/PycharmProjects/1_project/png/stu_quiz.png')
+        self.scorepage.setPixmap(scorepage)
+
+        teamain = QPixmap()
+        teamain.load('/home/ai2022/PycharmProjects/1_project/png/stu_main.png')
+        self.teamain.setPixmap(teamain)
+
+        stumainbtn3 = QPixmap()
+        stumainbtn3.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn3.setPixmap(stumainbtn3)
+
+        stumainbtn4 = QPixmap()
+        stumainbtn4.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn4.setPixmap(stumainbtn4)
 
     def animate(self, i):
         self.aaa2.clear()
@@ -336,7 +358,9 @@ class MainStudent(QWidget, ui):
 
         elif page == '로그아웃':
             self.stackedWidget_2.setCurrentWidget(self.login_page_2)
-            self.sock.send(f"{'logout/' + 'teacher/' + self.login_id + '/' + self.login_pw}".encode())
+            self.sock.send('logout/'.encode())
+
+
 
         # qna 부분 버튼
         elif page == 'QnA/':
@@ -402,9 +426,8 @@ class MainStudent(QWidget, ui):
         except:
             pass
 
-        self.pw_change_check_btn.clicked.connect(
-            lambda: self.sock.send(f'pw_change/{self.pw_change_id.text()}/{self.pw_change_pw.text()}'.encode()))
-        self.pw_change_quit_btn.clicked.connect(lambda: self.pw_change_dialog.close())
+        self.pw_change_check_btn.clicked.connect(lambda :self.sock.send(f'pw_change/{self.pw_change_id.text()}/{self.pw_change_pw.text()}'.encode()))
+        self.pw_change_quit_btn.clicked.connect(lambda :self.pw_change_dialog.close())
 
         self.pw_change_dialog.show()
 
