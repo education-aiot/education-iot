@@ -81,8 +81,7 @@ def handle_clnt(clnt_sock):
         else:
             continue
 
-
-''''
+        
 def logout(clnt_num):
     global clnt_cnt
     clnt_sock = clnt_data[clnt_num][0]
@@ -96,7 +95,7 @@ def logout(clnt_num):
                 clnt_data.pop()
             break
     clnt_cnt -= 1
-'''
+
 
 def pw_change(clnt_num,clnt_msg):
     conn, cur=conn_DB()
