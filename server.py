@@ -73,8 +73,51 @@ def handle_clnt(clnt_sock):
             mark(clnt_num, clnt_msg)
         elif clnt_msg.startswith('avg/'):
             quiz_avg(clnt_num)
+        elif clnt_msg.startswith('pw_change/'):
+            clnt_msg = clnt_msg.replace('pw_change/', '')
+            pw_change(clnt_num,clnt_msg)
         else:
             continue
+
+
+
+def pw_change(clnt_num,clnt_msg):
+    conn, cur=conn_DB()
+    data = clnt_msg.split('/')
+    # id/pw   확인 후 pw   update
+    
+    input_id=data[0]
+    input_pw=data[1]
+
+    member = clnt_data[clnt_num][1]
+    clnt_sock = clnt_data[clnt_num][0]
+
+    sql="select pw from  %s where id=?" %member
+    cur.execute(sql,(input_id)) # 실행
+    pw=cur.fetchone() # 저장
+    
+    # DBdata   [0] id    [1]  pw
+    #DBdata = '/'.join(DBdata)
+
+    if not pw:
+        clnt_sock.send('id error'.encode())
+        return
+     
+    if input_pw == pw: # pw
+        clnt_sock.send('pw success'.encode())
+    else :
+        clnt_sock.send('pw mismatch'.encode())
+        return
+    
+
+    new_pw=clnt_sock.recv(BUF_SIZE)
+    new_pw=new_pw.decode()
+    pw_update="update %s set pw =? where id=?" %member
+    cur.execute(pw_update,(new_pw,input_id,))
+    
+    conn.commit()
+    conn.close()
+
 
 
 def mark(clnt_num, clnt_msg):
@@ -120,8 +163,6 @@ def invite(clnt_num, clnt_msg):
             print("clnt_num : ", clnt_num)
             print('초대보내기')
             break
-
-
 
 def acceptance(clnt_num, clnt_msg):
     global chat, accept, accept2
