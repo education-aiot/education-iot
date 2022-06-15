@@ -5,6 +5,7 @@ from socket import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from threading import *
 from random import *
 
@@ -27,6 +28,9 @@ class MainStudent(QWidget, ui):
 
         self.sock = socket(AF_INET, SOCK_STREAM)
         self.sock.connect(('127.0.0.1', 9121))
+
+        self.pw_change_dialog = QDialog()
+
 
         # 테이블위젯 크기조정
         self.qna_table_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
