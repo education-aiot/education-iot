@@ -12,6 +12,7 @@ clnt_cnt = 0  # 접속한 클라이언트 수
 chat = 1      # 채팅방 번호
 accept = -1
 accept2 = -1
+out = []
 
 def conn_DB():
     conn = sqlite3.connect('edu.db')  # DB 연결
@@ -38,11 +39,9 @@ def handle_clnt(clnt_sock):
 
         if clnt_msg.startswith('signup/'):
             clnt_msg = clnt_msg.replace('signup/', '')
-            print(clnt_msg)
             signup(clnt_num, clnt_msg)
         elif clnt_msg.startswith('login/'):
             clnt_msg = clnt_msg.replace('login/', '')
-            print(clnt_msg)
             login(clnt_num, clnt_msg)
         elif clnt_msg.startswith('logout/'):
             logout(clnt_num)
@@ -84,7 +83,9 @@ def handle_clnt(clnt_sock):
         
 def logout(clnt_num):
     global clnt_cnt
+    global out
     clnt_sock = clnt_data[clnt_num][0]
+    out = [clnt_data[clnt_num][0]]
     
     for i in range(0, clnt_cnt):
         if clnt_sock == clnt_data[i][0]:
@@ -271,7 +272,6 @@ def quiz_print(clnt_num, clnt_msg):
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
 
-
     cur.execute("SELECT * FROM Quiz")
     rows = cur.fetchall()
     if not rows:
@@ -395,8 +395,12 @@ def signup(clnt_num, clnt_msg):
 
 
 def login(clnt_num, clnt_msg):
+    global clnt_cnt
     conn, cur = conn_DB() 
     member = ''
+    if len(out) != 0:
+        clnt_data.insert(clnt_cnt, out)
+        clnt_cnt += 1 
     clnt_sock = clnt_data[clnt_num][0]   
     # login/member/id/pw
     if clnt_msg.startswith('teacher/'):                  
@@ -427,23 +431,14 @@ def login(clnt_num, clnt_msg):
     if (input_pw,) == user_pw:
         print("login sucess")
         clnt_data[clnt_num].append(member)
-
-        print("clnt_data:", clnt_data[clnt_num])
         clnt_sock.send("!OK".encode())
         query = "SELECT * FROM %s WHERE id = ?" % member
         cur.execute(query, (input_id,))
         user_data = cur.fetchone()
         user_data = list(user_data)
-        print("user_data ", user_data)
         clnt_data[clnt_num] = clnt_data[clnt_num] + [0] + user_data
         print("clnt_data:", clnt_data[clnt_num])
         # socket fd, member, chat, id, pw, nickname
-    
-        '''확인용
-        member = clnt_data[clnt_num][1]
-        name = clnt_data[clnt_num][5]
-        print("member", member, "name", name) 
-        '''
 
     else:
         print("login fail")

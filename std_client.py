@@ -53,6 +53,7 @@ class MainStudent(QWidget, ui):
         self.join_btn.clicked.connect(lambda: self.move_page('회원가입'))
         self.randchoice_btn.clicked.connect(self.uploadques)
         self.pwchangebtn.clicked.connect(self.pw_change)
+        self.logout_btn_2.clicked.connect(self.logout)
 
 
 
@@ -89,6 +90,9 @@ class MainStudent(QWidget, ui):
         stumainbtn2.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
         self.stumainbtn2.setPixmap(stumainbtn2)
 
+    def logout(self):
+        self.sock.send('logout/'.encode())
+        self.move_page('로그인')
 
     def insql(self,query): #쿼리문 작성용
         with self.con:
@@ -108,18 +112,11 @@ class MainStudent(QWidget, ui):
                 self.rowcounts+=1
                 quiz=self.final_message.split('/')
 
-                print(f'insert into 문제집 values ("{quiz[2]}","{quiz[3]}")')
                 self.answer_lst.append(quiz[3])
-                try:
-                    with self.con:
-                        cur=self.con.cursor()
-                        cur.execute(f'insert into 문제집 values ("{quiz[2]}","{quiz[3]}")')
-                except:
-                    pass
                 self.tableWidget_2.setRowCount((self.rowcounts))
                 self.tableWidget_2.setItem(self.rowcounts-1, 0, QTableWidgetItem(quiz[2]))
                 print(self.rowcounts)
-                print('퀴즈:', quiz[2])
+
 
 
 
@@ -170,14 +167,20 @@ class MainStudent(QWidget, ui):
                 except:
                     pass
                 print(self.teacher)
+
             elif 'success' in self.final_message:
-                self.sock.send(f'{self.pw_change_new.text()}')
+                time.sleep(0.2)
+                self.sock.send(f'{self.pw_change_new.text()}'.encode())
+                print('프린트')
 
             elif 'mismatch' in self.final_message:
                 QMessageBox.warning(self.pw_change_dialog,'비밀번호 오류','비밀번호를 다시 확인하세요.')
+
             elif 'checkback' in self.final_message:
                 QMessageBox.warning(self.pw_change_dialog, '아이디 오류', '아이디를 다시 확인하세요')
 
+            elif '수락' in self.final_message:
+                self.move_page('상담방')
 
     def quitmessage(self):
         self.sock.send('chat/그만하기'.encode())
@@ -204,9 +207,7 @@ class MainStudent(QWidget, ui):
             print('선생님이름:',item)
             self.sock.send(f'invite/{item}'.encode())
 
-        if '수락' in self.final_message:
-            self.move_page('상담방')
-            self.TN.clear()
+
 
 
     def sendconsul(self): # 상담 메지시 보내기
@@ -328,7 +329,6 @@ class MainStudent(QWidget, ui):
         self.rowcounts=0
         self.sock.send('quiz/'.encode())
 
-        pass
     def check_answer(self): # 답 비교하기 함수
         self.score=0
         self.wrong_answer.clear() # 틀린답 리스트 지우기
@@ -342,8 +342,6 @@ class MainStudent(QWidget, ui):
             except:
                 value=''
             answer_lst.append(value)
-            print("답 쓴거:",answer_lst)
-
             if self.answer_lst[i]==answer_lst[i]: # 답이 정답이면 스코어 증가 answer/문제 로 정답 메시지 보내기
                 self.score+=1
                 self.sock.send(f'mark/{i + 1}/o'.encode())
@@ -351,12 +349,14 @@ class MainStudent(QWidget, ui):
                 self.wrong_answer.append(i+1) # 답이 오답이면 스코어 증가 x wrong/문제로 오답 메시지 보내기
                 self.check_browser.append(f'{i+1} 오답')
                 self.sock.send(f'mark/{i + 1}/x'.encode())
+                time.sleep(0.3)
 
         self.lcdNumber.display(self.score) # lcd 위젯 점수 표시용
+        self.answer_lst.clear()
         # self.sock.send(f'{self.log}')
         print('final answer_lst: ', answer_lst)
-        print(self.wrong_answer)
-        self.answer_lst.clear()
+
+
 
     def save(self): # 작성한 문제 저장하기
         prob=[]

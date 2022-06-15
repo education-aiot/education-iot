@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>965</width>
-    <height>693</height>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>-10</y>
+     <y>0</y>
      <width>971</width>
      <height>691</height>
     </rect>
@@ -307,7 +307,7 @@ background-color: rgb(91, 155, 213);
       <string>Q &amp;&amp; A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="logout_btn_2">
      <property name="geometry">
       <rect>
        <x>-1</x>
@@ -436,16 +436,30 @@ background-color: rgb(91, 155, 213);
       <pixmap>../../png/화면 캡처 2022-06-13 222549.png</pixmap>
      </property>
     </widget>
+    <widget class="QPushButton" name="pwchangebtn">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>330</y>
+       <width>89</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>비밀번호변경</string>
+     </property>
+    </widget>
     <zorder>stumain</zorder>
     <zorder>stumainbtn</zorder>
     <zorder>stumainbtn2</zorder>
     <zorder>label_29</zorder>
     <zorder>label_3</zorder>
-    <zorder>pushButton_2</zorder>
+    <zorder>logout_btn_2</zorder>
     <zorder>qna_btn</zorder>
     <zorder>solv_btn</zorder>
     <zorder>study_btn</zorder>
     <zorder>consulting_btn</zorder>
+    <zorder>pwchangebtn</zorder>
    </widget>
    <widget class="QWidget" name="teacher_main_page">
     <widget class="QLabel" name="label_30">
@@ -620,6 +634,9 @@ background-color: rgb(91, 155, 213);
        <width>601</width>
        <height>401</height>
       </rect>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
       <bool>false</bool>
@@ -810,6 +827,12 @@ background-color: rgb(91, 155, 213);
 
 }</string>
      </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
      <column>
       <property name="text">
        <string>Number</string>
@@ -985,6 +1008,9 @@ background-color: rgb(91, 155, 213);
 
 
 }</string>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <column>
       <property name="text">
@@ -1170,6 +1196,9 @@ background-color: rgb(91, 155, 213);
        <height>621</height>
       </rect>
      </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text">
        <string>출현종수</string>
@@ -1295,6 +1324,9 @@ background-color: rgb(91, 155, 213);
        <width>601</width>
        <height>591</height>
       </rect>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <column>
       <property name="text">
@@ -1432,6 +1464,7 @@ background-color: rgb(91, 155, 213);
     <zorder>tableWidget_2</zorder>
     <zorder>verticalLayoutWidget</zorder>
    </widget>
+   <widget class="QWidget" name="page"/>
   </widget>
  </widget>
  <resources/>
