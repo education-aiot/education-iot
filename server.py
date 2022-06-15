@@ -86,9 +86,10 @@ def logout(clnt_num):
     global out
     clnt_sock = clnt_data[clnt_num][0]
     lock.acquire()
-    out = [clnt_data[clnt_num][0]]
-    for i in range(0, clnt_cnt):
-        if clnt_sock == clnt_data[i][0]:
+     # 로그아웃하는 클라이언트 소켓 fd 대입
+    out = [clnt_data[clnt_num][0]]                 
+    for i in range(0, clnt_cnt):          
+        if clnt_sock == clnt_data[i][0]:             # 로그아웃하는 clnt_data 삭제
             while i < clnt_cnt - 1:
                 clnt_data[i] = clnt_data[i + 1]
                 i += 1
@@ -137,13 +138,11 @@ def pw_change(clnt_num,clnt_msg):
 
 def mark(clnt_num, clnt_msg):
     conn, cur = conn_DB()
-    print("채점 : ", clnt_msg)
     check = clnt_msg.split('/')
     if check[1]  == 'o':
         check[1] = 100
     else:
         check[1] = 0
-    print("check : ", check)
     lock.acquire()
     cur.executemany("INSERT INTO learning(num, score) VALUES (?, ?)", (check,))
     conn.commit()
@@ -180,15 +179,14 @@ def invite(clnt_num, clnt_msg):
 
 def acceptance(clnt_num, clnt_msg):
     global chat, my_num, your_num
-    print(clnt_msg)
-    clnt_sock = clnt_data[clnt_num][0]
-    if clnt_msg == 'yes':
+    #채팅초대 받았을 때 답변 yes면
+    if clnt_msg == 'yes': 
         clnt_data[my_num][0].send('수락'.encode())
         clnt_data[my_num][2] = chat
         clnt_data[your_num][2] = chat
         chat += 1
     else:
-        clnt_data[your_num][0].send('거절'.encode())
+        clnt_data[my_num][0].send('거절'.encode())
 
     my_num = -1
     your_num = -1
@@ -242,11 +240,9 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     clnt_sock = clnt_data[clnt_num][0]
     member = clnt_data[clnt_num][1]
     name = clnt_data[clnt_num][5]
-    print(clnt_msg)
-    print(member)
-    print(name)
-    if member == 'student':                    # 학생
-        data = [name, clnt_msg]                # 질문
+
+    if member == 'student':                    # 학생일 때 
+        data = [name, clnt_msg]                # 닉네임, 질문
         lock.acquire()
         cur.executemany(
             "INSERT INTO QnA(studentname, question) VALUES(?, ?)", (data,))
@@ -254,11 +250,9 @@ def qna_update(clnt_num, clnt_msg):           # QnA 등록
     elif member == 'teacher':
         data = clnt_msg.split('/')
         data = [name] + data
-        print("data: ", data)
         data[2] = int(data[2])
         lock.acquire()
         query = "UPDATE QnA SET teachername = '%s', answer = '%s' where num = %d" % (data[0], data[1], data[2])
-        print("query : ", query)
         cur.execute(query)
 
     conn.commit()
@@ -343,10 +337,6 @@ def signup(clnt_num, clnt_msg):
     while 1:
         overlap = False
 
-        if clnt_msg == "close":
-            conn.close()
-            return
-
         if clnt_msg.startswith('teacher/'):
             member = 'teacher'
             user_id = clnt_msg.replace('teacher/', '')
@@ -377,9 +367,6 @@ def signup(clnt_num, clnt_msg):
         info = clnt_sock.recv(BUF_SIZE)
         info = info.decode()  # id/pw/name
         print("id/pw/name: ", info)
-        if info == 'close':
-            conn.close()
-            break
 
         info = info.split('/')
 
@@ -400,7 +387,8 @@ def login(clnt_num, clnt_msg):
     global out
     conn, cur = conn_DB() 
     member = ''
-    if out:
+    #로그아웃 한 후에 다시 로그인할 때
+    if out:                 
         lock.acquire()
         clnt_data.insert(clnt_cnt, out)
         clnt_cnt += 1 
