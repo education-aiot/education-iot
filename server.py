@@ -10,8 +10,8 @@ lock = threading.Lock()
 clnt_data = []  # 접속한 클라이언트 정보 대입
 clnt_cnt = 0  # 접속한 클라이언트 수
 chat = 1      # 채팅방 번호
-accept = -1
-accept2 = -1
+your_num = -1
+my_num = -1
 out = []
 
 def conn_DB():
@@ -45,7 +45,7 @@ def handle_clnt(clnt_sock):
             login(clnt_num, clnt_msg)
         elif clnt_msg.startswith('logout/'):
             logout(clnt_num)
-        elif accept >= 0: 
+        elif your_num >= 0: 
             acceptance(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):  ## 수정
             if clnt_data[clnt_num][2] != 0:  # 초기의 채팅방 상태는 0
@@ -166,36 +166,32 @@ def chatting(clnt_num, clnt_msg):
 
 
 def invite(clnt_num, clnt_msg):
-    global accept
-    global accept2
+    global your_num
+    global my_num
     clnt_sock = clnt_data[clnt_num][0] # my
     name = clnt_msg
     for i in range(0, clnt_cnt):
         if clnt_data[i][5] == name: #you_name
             clnt_data[i][0].send('채팅 초대'.encode())
-            accept = i
-            accept2 = clnt_num
-            print("accept: ", accept)
-            print("clnt_num : ", clnt_num)
-            print('초대보내기')
+            your_num = i
+            my_num = clnt_num
             break
 
 
 def acceptance(clnt_num, clnt_msg):
-    global chat, accept, accept2
+    global chat, my_num, your_num
     print(clnt_msg)
     clnt_sock = clnt_data[clnt_num][0]
     if clnt_msg == 'yes':
-        clnt_data[accept2][0].send('수락'.encode())
-        clnt_data[accept][2] = chat
-        clnt_data[accept2][2] = chat
+        clnt_data[my_num][0].send('수락'.encode())
+        clnt_data[my_num][2] = chat
+        clnt_data[your_num][2] = chat
         chat += 1
     else:
-        clnt_data[accept2][0].send('거절'.encode())
+        clnt_data[your_num][0].send('거절'.encode())
 
-    accept = -1
-    accept2 = -1
-        
+    my_num = -1
+    your_num = -1
 
 
 def show_list(clnt_num):
