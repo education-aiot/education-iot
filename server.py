@@ -396,11 +396,13 @@ def signup(clnt_num, clnt_msg):
 
 def login(clnt_num, clnt_msg):
     global clnt_cnt
+    global out
     conn, cur = conn_DB() 
     member = ''
-    if len(out) != 0:
+    if out:
         clnt_data.insert(clnt_cnt, out)
         clnt_cnt += 1 
+        out = []
     clnt_sock = clnt_data[clnt_num][0]   
     # login/member/id/pw
     if clnt_msg.startswith('teacher/'):                  
