@@ -320,7 +320,7 @@ background-color: rgb(91, 155, 213);
       <string>Q &amp;&amp; A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="logout_btn_2">
      <property name="geometry">
       <rect>
        <x>-1</x>
@@ -454,7 +454,7 @@ background-color: rgb(91, 155, 213);
     <zorder>stumainbtn2</zorder>
     <zorder>label_29</zorder>
     <zorder>label_3</zorder>
-    <zorder>pushButton_2</zorder>
+    <zorder>logout_btn_2</zorder>
     <zorder>qna_btn</zorder>
     <zorder>solv_btn</zorder>
     <zorder>study_btn</zorder>
@@ -477,11 +477,28 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="update_btn">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>280</y>
-       <width>95</width>
-       <height>31</height>
+       <x>380</x>
+       <y>146</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+	
+
+	background-color: rgb(255, 255, 255);
+border-radius:75px;
+
+}
+
+QPushButton:hover{
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string>문제 업데이트</string>
@@ -490,11 +507,28 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="score_btn">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>280</y>
-       <width>112</width>
-       <height>31</height>
+       <x>671</x>
+       <y>147</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+	
+
+	background-color: rgb(255, 255, 255);
+border-radius:75px;
+
+}
+
+QPushButton:hover{
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string>점수확인 및 통계</string>
@@ -503,11 +537,28 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="qna_btn_2">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>280</y>
-       <width>80</width>
-       <height>25</height>
+       <x>380</x>
+       <y>430</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+	
+
+	background-color: rgb(255, 255, 255);
+border-radius:75px;
+
+}
+
+QPushButton:hover{
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string> Q &amp;&amp; A</string>
@@ -516,11 +567,28 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="consulting_btn_2">
      <property name="geometry">
       <rect>
-       <x>550</x>
-       <y>280</y>
-       <width>80</width>
-       <height>31</height>
+       <x>670</x>
+       <y>429</y>
+       <width>151</width>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(0, 0, 0);
+border: 2px solid rgb(91, 155, 213);
+	
+
+	background-color: rgb(255, 255, 255);
+border-radius:75px;
+
+}
+
+QPushButton:hover{
+color: rgb(255, 255, 255);
+
+background-color: rgb(91, 155, 213);
+}</string>
      </property>
      <property name="text">
       <string>상담요청</string>
@@ -529,23 +597,92 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="logout_btn">
      <property name="geometry">
       <rect>
-       <x>650</x>
-       <y>280</y>
-       <width>80</width>
-       <height>31</height>
+       <x>0</x>
+       <y>40</y>
+       <width>41</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+background-color: rgb(238, 238, 236);
+border-radius:45px;
+	
+	color: rgb(46, 52, 54);
+}
+
+QPushButton:hover{
+
+
+background-color: rgb(91,155,213);
+}</string>
+     </property>
+     <property name="text">
+      <string>log
+out</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="stumainbtn3">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>410</y>
+       <width>531</width>
+       <height>281</height>
       </rect>
      </property>
      <property name="text">
-      <string>로그아웃</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/화면 캡처 2022-06-13 222549.png</pixmap>
      </property>
     </widget>
+    <widget class="QLabel" name="stumainbtn4">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>130</y>
+       <width>531</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../png/화면 캡처 2022-06-13 222549.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="teamain">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-20</y>
+       <width>1001</width>
+       <height>741</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>teamain</zorder>
+    <zorder>stumainbtn3</zorder>
+    <zorder>stumainbtn4</zorder>
+    <zorder>label_30</zorder>
+    <zorder>update_btn</zorder>
+    <zorder>score_btn</zorder>
+    <zorder>qna_btn_2</zorder>
+    <zorder>consulting_btn_2</zorder>
+    <zorder>logout_btn</zorder>
    </widget>
    <widget class="QWidget" name="update_page">
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>110</y>
+       <x>400</x>
+       <y>70</y>
        <width>191</width>
        <height>51</height>
       </rect>
@@ -557,8 +694,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLineEdit" name="newanswer_edit">
      <property name="geometry">
       <rect>
-       <x>630</x>
-       <y>590</y>
+       <x>790</x>
+       <y>550</y>
        <width>141</width>
        <height>31</height>
       </rect>
@@ -570,8 +707,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>580</x>
-       <y>590</y>
+       <x>740</x>
+       <y>550</y>
        <width>41</width>
        <height>31</height>
       </rect>
@@ -586,8 +723,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLineEdit" name="newquiz_edit">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>590</y>
+       <x>370</x>
+       <y>550</y>
        <width>371</width>
        <height>31</height>
       </rect>
@@ -599,8 +736,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="quiz_renew_btn">
      <property name="geometry">
       <rect>
-       <x>580</x>
-       <y>640</y>
+       <x>740</x>
+       <y>600</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -612,8 +749,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLabel" name="label_13">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>590</y>
+       <x>320</x>
+       <y>550</y>
        <width>41</width>
        <height>31</height>
       </rect>
@@ -628,8 +765,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QTableWidget" name="update_table">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>180</y>
+       <x>330</x>
+       <y>140</y>
        <width>601</width>
        <height>401</height>
       </rect>
@@ -663,8 +800,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="quiz_add_btn">
      <property name="geometry">
       <rect>
-       <x>680</x>
-       <y>640</y>
+       <x>840</x>
+       <y>600</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -676,23 +813,46 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="update_back_btn">
      <property name="geometry">
       <rect>
-       <x>790</x>
-       <y>640</y>
-       <width>89</width>
-       <height>25</height>
+       <x>640</x>
+       <y>600</y>
+       <width>91</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
       <string>메인으로</string>
      </property>
     </widget>
+    <widget class="QLabel" name="teaupdate">
+     <property name="geometry">
+      <rect>
+       <x>-10</x>
+       <y>-22</y>
+       <width>1001</width>
+       <height>751</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>teaupdate</zorder>
+    <zorder>label</zorder>
+    <zorder>newanswer_edit</zorder>
+    <zorder>label_6</zorder>
+    <zorder>newquiz_edit</zorder>
+    <zorder>quiz_renew_btn</zorder>
+    <zorder>label_13</zorder>
+    <zorder>update_table</zorder>
+    <zorder>quiz_add_btn</zorder>
+    <zorder>update_back_btn</zorder>
    </widget>
    <widget class="QWidget" name="score_page">
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>60</y>
+       <x>530</x>
+       <y>20</y>
        <width>201</width>
        <height>71</height>
       </rect>
@@ -704,8 +864,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="avg_btn">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>590</y>
+       <x>850</x>
+       <y>550</y>
        <width>91</width>
        <height>71</height>
       </rect>
@@ -717,8 +877,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QTableWidget" name="score_screen">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>110</y>
+       <x>730</x>
+       <y>70</y>
        <width>211</width>
        <height>461</height>
       </rect>
@@ -746,10 +906,10 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="score_back_btn">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>610</y>
-       <width>89</width>
-       <height>25</height>
+       <x>740</x>
+       <y>550</y>
+       <width>101</width>
+       <height>71</height>
       </rect>
      </property>
      <property name="text">
@@ -759,14 +919,33 @@ background-color: rgb(91, 155, 213);
     <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>150</y>
-       <width>391</width>
-       <height>341</height>
+       <x>280</x>
+       <y>90</y>
+       <width>411</width>
+       <height>451</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout"/>
     </widget>
+    <widget class="QLabel" name="scorepage">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-20</y>
+       <width>1001</width>
+       <height>731</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>scorepage</zorder>
+    <zorder>label_2</zorder>
+    <zorder>avg_btn</zorder>
+    <zorder>score_screen</zorder>
+    <zorder>score_back_btn</zorder>
+    <zorder>verticalLayoutWidget_2</zorder>
    </widget>
    <widget class="QWidget" name="qna_page_2">
     <widget class="QLabel" name="label_31">
@@ -914,8 +1093,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLabel" name="label_32">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>50</y>
+       <x>380</x>
+       <y>40</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -937,8 +1116,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>530</y>
+       <x>50</x>
+       <y>540</y>
        <width>91</width>
        <height>111</height>
       </rect>
@@ -1014,6 +1193,25 @@ background-color: rgb(91, 155, 213);
       </property>
      </column>
     </widget>
+    <widget class="QLabel" name="teaqna">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-30</y>
+       <width>981</width>
+       <height>761</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>teaqna</zorder>
+    <zorder>label_32</zorder>
+    <zorder>send_line_2</zorder>
+    <zorder>layoutWidget_2</zorder>
+    <zorder>label_8</zorder>
+    <zorder>qna_table_2</zorder>
    </widget>
    <widget class="QWidget" name="consulting_page">
     <widget class="QLabel" name="label_4">
@@ -1105,8 +1303,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QLineEdit" name="lineEdit_3">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>610</y>
+       <x>230</x>
+       <y>590</y>
        <width>711</width>
        <height>41</height>
       </rect>
@@ -1115,8 +1313,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QTextBrowser" name="textBrowser_2">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>80</y>
+       <x>230</x>
+       <y>50</y>
        <width>711</width>
        <height>521</height>
       </rect>
@@ -1125,8 +1323,8 @@ background-color: rgb(91, 155, 213);
     <widget class="QPushButton" name="quit_btn_2">
      <property name="geometry">
       <rect>
-       <x>800</x>
-       <y>80</y>
+       <x>30</x>
+       <y>580</y>
        <width>111</width>
        <height>41</height>
       </rect>
@@ -1148,6 +1346,24 @@ background-color: rgb(91, 155, 213);
       <string>교사용상담방</string>
      </property>
     </widget>
+    <widget class="QLabel" name="teaconsul">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-16</y>
+       <width>981</width>
+       <height>741</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>teaconsul</zorder>
+    <zorder>lineEdit_3</zorder>
+    <zorder>textBrowser_2</zorder>
+    <zorder>quit_btn_2</zorder>
+    <zorder>label_5</zorder>
    </widget>
    <widget class="QWidget" name="student_page1">
     <widget class="QLabel" name="label_11">
