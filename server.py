@@ -136,6 +136,8 @@ def acceptance(clnt_num, clnt_msg):
         accept2 = -1
     else:
         clnt_data[accept2][0].send('거절'.encode())
+        accept = -1
+        accept2 = -1
         
 
 
