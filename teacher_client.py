@@ -183,11 +183,11 @@ class MainStudent(QWidget, ui):
         self.SN = []
         self.sock.send('name_list/'.encode())
         time.sleep(0.3)
-        for i in range(len(self.student)):
-            try:
+        try:
+            for i in range(len(self.student)):
                 self.SN.append(self.student[i + 1])
-            except:
-                pass
+        except:
+            pass
 
         item, ok = QInputDialog.getItem(self, "학생 목록", "학생을 선택하세요.", self.SN, 0, False)
         if ok and item:
