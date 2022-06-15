@@ -85,8 +85,8 @@ def logout(clnt_num):
     global clnt_cnt
     global out
     clnt_sock = clnt_data[clnt_num][0]
+    lock.acquire()
     out = [clnt_data[clnt_num][0]]
-    
     for i in range(0, clnt_cnt):
         if clnt_sock == clnt_data[i][0]:
             while i < clnt_cnt - 1:
@@ -96,6 +96,7 @@ def logout(clnt_num):
                 clnt_data.pop()
             break
     clnt_cnt -= 1
+    lock.release()
 
 
 def pw_change(clnt_num,clnt_msg):
@@ -143,9 +144,10 @@ def mark(clnt_num, clnt_msg):
     else:
         check[1] = 0
     print("check : ", check)
-
+    lock.acquire()
     cur.executemany("INSERT INTO learning(num, score) VALUES (?, ?)", (check,))
     conn.commit()
+    lock.release()
     conn.close()
 
 
@@ -177,6 +179,7 @@ def invite(clnt_num, clnt_msg):
             print("clnt_num : ", clnt_num)
             print('초대보내기')
             break
+
 
 def acceptance(clnt_num, clnt_msg):
     global chat, accept, accept2
@@ -298,11 +301,13 @@ def quiz_update(clnt_num, clnt_msg):
     conn, cur = conn_DB()
 
     member = clnt_data[clnt_num][1]
+    lock.acquire()
     if member == 'teacher':
         data = clnt_msg.split('/')
-        lock.acquire()
+        
         cur.executemany(
             "INSERT INTO Quiz(quiz, answer) VALUES (?, ?)", (data,))
+        
     else:
         print("권한없음")
 
@@ -400,9 +405,11 @@ def login(clnt_num, clnt_msg):
     conn, cur = conn_DB() 
     member = ''
     if out:
+        lock.acquire()
         clnt_data.insert(clnt_cnt, out)
         clnt_cnt += 1 
         out = []
+        lock.release()
     clnt_sock = clnt_data[clnt_num][0]   
     # login/member/id/pw
     if clnt_msg.startswith('teacher/'):                  
