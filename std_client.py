@@ -3,6 +3,8 @@ import sys
 from socket import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from threading import *
 from random import *
 import time
@@ -17,7 +19,7 @@ class MainStudent(QWidget, ui):
         self.con = sqlite3.connect("Animal.db", check_same_thread=False)# db연결
         self.dic = {} # 문제:답 딕셔너리 06/10 사용 x 혹시나 몰라서 놔둠.
         self.num = [] #
-        self.TN=[]
+
         self.answer_lst=[] # 답 리스트
         self.wrong_answer=[] # 틀린답 리스트
         self.i=0
@@ -27,7 +29,7 @@ class MainStudent(QWidget, ui):
         self.rowcounts=0
         self.sock = socket(AF_INET, SOCK_STREAM) #소켓
         self.sock.connect(('127.0.0.1', 9040)) # 소켓연결
-
+        self.pw_change_dialog = QDialog()
         self.tableWidget_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         self.qna_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)# 테이블위젯 크기조정
         # 버튼 클릭
@@ -50,8 +52,44 @@ class MainStudent(QWidget, ui):
         self.back_btn.clicked.connect(lambda: self.move_page('로그인'))
         self.join_btn.clicked.connect(lambda: self.move_page('회원가입'))
         self.randchoice_btn.clicked.connect(self.uploadques)
+        self.pwchangebtn.clicked.connect(self.pw_change)
 
-        # self.randchoice_btn.clicked.connect(lambda :self.sol())
+
+
+
+        stumain = QPixmap()
+        stumain.load('/home/ai2022/PycharmProjects/1_project/png/stu_main.png')
+        self.stumain.setPixmap(stumain)
+
+        stuqna = QPixmap()
+        stuqna.load('/home/ai2022/PycharmProjects/1_project/png/stu_QnA.png')
+        self.stuqna.setPixmap(stuqna)
+
+        # teaqna = QPixmap()
+        # teaqna.load('/home/ai2022/PycharmProjects/1_project/png/stu_QnA.png')
+        # self.teaqna.setPixmap(teaqna)
+
+        stuconsult = QPixmap()
+        stuconsult.load('/home/ai2022/PycharmProjects/1_project/png/stu_consult.png')
+        self.stuconsult.setPixmap(stuconsult)
+
+        stulearn = QPixmap()
+        stulearn.load('/home/ai2022/PycharmProjects/1_project/png/stu_learn.png')
+        self.stulearn.setPixmap(stulearn)
+
+        stusol = QPixmap()
+        stusol.load('/home/ai2022/PycharmProjects/1_project/png/stu_quiz.png')
+        self.stusol.setPixmap(stusol)
+
+        stumainbtn = QPixmap()
+        stumainbtn.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn.setPixmap(stumainbtn)
+
+        stumainbtn2 = QPixmap()
+        stumainbtn2.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn2.setPixmap(stumainbtn2)
+
+
     def insql(self,query): #쿼리문 작성용
         with self.con:
             cur = self.con.cursor()
@@ -62,6 +100,8 @@ class MainStudent(QWidget, ui):
         while True:
             recv_message = sock.recv(4096)
             self.final_message = recv_message.decode('utf-8')
+
+            print(self.final_message)
 
 
             if 'quiz/' in self.final_message:
@@ -125,8 +165,18 @@ class MainStudent(QWidget, ui):
                 self.textBrowser.append(name+":"+ chat)
                 pass
             elif 'TN/' in self.final_message:
-                self.teacher = self.final_message.split('/')
+                try:
+                    self.teacher = self.final_message.split('/')
+                except:
+                    pass
                 print(self.teacher)
+            elif 'success' in self.final_message:
+                self.sock.send(f'{self.pw_change_new.text()}')
+
+            elif 'mismatch' in self.final_message:
+                QMessageBox.warning(self.pw_change_dialog,'비밀번호 오류','비밀번호를 다시 확인하세요.')
+            elif 'checkback' in self.final_message:
+                QMessageBox.warning(self.pw_change_dialog, '아이디 오류', '아이디를 다시 확인하세요')
 
 
     def quitmessage(self):
@@ -139,20 +189,22 @@ class MainStudent(QWidget, ui):
         self.send_line.clear()
 
     def consult(self): #상담요청 버튼
+        self.TN = []
         self.sock.send('name_list/'.encode())
         time.sleep(0.3)
-        for i in range(len(self.teacher)):
-            try:
+        try:
+            for i in range(len(self.teacher)):
+
                 self.TN.append(self.teacher[i + 1])
-            except:
-                pass
+        except:
+            pass
 
         item, ok = QInputDialog.getItem(self, "선생님 목록", "선생님을 선택하세요.", self.TN, 0, False)
         if ok and item:
             print('선생님이름:',item)
             self.sock.send(f'invite/{item}'.encode())
 
-        # if '수락' in self.final_message:
+        if '수락' in self.final_message:
             self.move_page('상담방')
             self.TN.clear()
 
@@ -279,8 +331,8 @@ class MainStudent(QWidget, ui):
         pass
     def check_answer(self): # 답 비교하기 함수
         self.score=0
-        self.wrong_answer.clear()
-        self.check_browser.clear()
+        self.wrong_answer.clear() # 틀린답 리스트 지우기
+        self.check_browser.clear() # 오답표시 브라우저
         print('self.answer_lst: ',self.answer_lst)
         answer_lst=[]
         for i in range(self.tableWidget_2.rowCount()):
@@ -295,7 +347,6 @@ class MainStudent(QWidget, ui):
             if self.answer_lst[i]==answer_lst[i]: # 답이 정답이면 스코어 증가 answer/문제 로 정답 메시지 보내기
                 self.score+=1
                 self.sock.send(f'mark/{i + 1}/o'.encode())
-
             else:
                 self.wrong_answer.append(i+1) # 답이 오답이면 스코어 증가 x wrong/문제로 오답 메시지 보내기
                 self.check_browser.append(f'{i+1} 오답')
@@ -327,6 +378,7 @@ class MainStudent(QWidget, ui):
                 value2 = item2.text()
             except:
                 value2='' # 아무것도 적지 않으면 오류가 뜨기에 예외처리를 통해서 ''로 변경해주기
+
             prob.append(value1)
             ans.append(value2)
 
@@ -357,7 +409,46 @@ class MainStudent(QWidget, ui):
                     self.tableWidget_2.setItem(i,1,QTableWidgetItem(row[1]))
                 i += 1
 
-        pass
+
+
+    def pw_change(self):
+        # super().__init__()
+        self.pw_change_dialog.setWindowTitle('비밀번호 변경하기')
+        self.pw_change_dialog.setWindowModality(Qt.ApplicationModal)
+        self.pw_change_dialog.resize(400, 300)
+
+        self.pw_change_line1=QLabel('ID: ',self.pw_change_dialog)
+        self.pw_change_line2=QLabel('현재 PW: ',self.pw_change_dialog)
+        self.pw_change_line3=QLabel('변경할 PW: ',self.pw_change_dialog)
+        self.pw_change_line1.setGeometry(50, 50, 100, 30)
+        self.pw_change_line2.setGeometry(50, 90, 100, 30)
+        self.pw_change_line3.setGeometry(50, 130, 100, 30)
+
+        self.pw_change_id=QLineEdit(self.pw_change_dialog)
+        self.pw_change_pw=QLineEdit(self.pw_change_dialog)
+        self.pw_change_new=QLineEdit(self.pw_change_dialog)
+
+        self.pw_change_id.setGeometry(170, 50, 100, 30)
+        self.pw_change_pw.setGeometry(170, 90, 100, 30)
+        self.pw_change_new.setGeometry(170, 130, 100, 30)
+
+        self.pw_change_check_btn=QPushButton('check',self.pw_change_dialog)
+        self.pw_change_quit_btn=QPushButton('나가기',self.pw_change_dialog)
+
+        self.pw_change_check_btn.setGeometry(290,50,80,30)
+        self.pw_change_quit_btn.setGeometry(170,200,60,30)
+
+
+        try:
+            print('다이얼',self.final_message)
+        except:
+            pass
+
+        self.pw_change_check_btn.clicked.connect(lambda :self.sock.send(f'pw_change/{self.pw_change_id.text()}/{self.pw_change_pw.text()}'.encode()))
+        self.pw_change_quit_btn.clicked.connect(lambda :self.pw_change_dialog.close())
+
+        self.pw_change_dialog.show()
+
 
 
 

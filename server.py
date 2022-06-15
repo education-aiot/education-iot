@@ -44,7 +44,7 @@ def handle_clnt(clnt_sock):
             clnt_msg = clnt_msg.replace('login/', '')
             print(clnt_msg)
             login(clnt_num, clnt_msg)
-        elif accept >= 0:
+        elif accept >= 0: 
             acceptance(clnt_num, clnt_msg)
         elif clnt_msg.startswith('chat/'):  ## 수정
             if clnt_data[clnt_num][2] != 0:  # 초기의 채팅방 상태는 0
@@ -222,7 +222,7 @@ def qna(clnt_num):  # QnA 페이지 열면 QnA 목록 전송
             clnt_sock.send(row.encode())
             time.sleep(0.1)
     conn.close()
-
+# socket fd, member, chat, id, pw, nickname
 
 def qna_update(clnt_num, clnt_msg):           # QnA 등록
     conn, cur = conn_DB()
@@ -279,18 +279,6 @@ def quiz_print(clnt_num, clnt_msg):
 
 
 
-def quiz_result(clnt_num, clnt_msg):
-    conn, cur = conn_DB()
-    id = clnt_data[clnt_num][3]
-    save = clnt_data[clnt_num][6]
-    point = int(clnt_data[clnt_num][7])
-
-    data = clnt_msg.split('/')
-    data.insert(-1, id)
-    print("data : ", data)
-    data[1] = int(data[1])
-    query = "UPDATE student SET save = %s, point = %d WHERE id = %s" % (data[0], data[1], id)
-    cur.execute(query)
 
 
 def quiz_update(clnt_num, clnt_msg):
@@ -436,6 +424,7 @@ def login(clnt_num, clnt_msg):
         print("user_data ", user_data)
         clnt_data[clnt_num] = clnt_data[clnt_num] + [0] + user_data
         print("clnt_data:", clnt_data[clnt_num])
+        # socket fd, member, chat, id, pw, nickname
     
         '''확인용
         member = clnt_data[clnt_num][1]

@@ -5,6 +5,7 @@ from socket import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from threading import *
 from random import *
 
@@ -24,13 +25,17 @@ class MainStudent(QWidget, ui):
         self.i = 0
 
         #학생 목록
-        self.SN = []
 
         self.sock = socket(AF_INET, SOCK_STREAM)
-        self.sock.connect(('127.0.0.1', 9040))
+        self.sock.connect(('127.0.0.1', 9121))
 
-        # qna 테이블위젯 크기조정
+        self.pw_change_dialog = QDialog()
+
+
+        # 테이블위젯 크기조정
         self.qna_table_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.update_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.score_screen.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         #상담방 버튼
         self.quit_btn_2.clicked.connect(self.quitmessage)
@@ -50,6 +55,9 @@ class MainStudent(QWidget, ui):
         self.login_btn.clicked.connect(self.Login)
         self.join_btn.clicked.connect(lambda: self.move_page('회원가입'))
         self.back_btn.clicked.connect(lambda: self.move_page('로그인'))
+        #비밀번호 변경
+        self.pwchangebtn.clicked.connect(self.pw_change)
+
 
         # 교사용 에서 쓰는 버튼
         self.update_btn.clicked.connect(lambda : self.move_page('업데이트'))
@@ -63,6 +71,10 @@ class MainStudent(QWidget, ui):
         self.quiz_renew_btn.clicked.connect(self.update_renew)
         #학생 통계확인 버튼
         self.avg_btn.clicked.connect(self.score_renew)
+
+        # teaqna = QPixmap()
+        # teaqna.load('/home/psj/바탕화면/python/png/stu_QnA.png')
+        # self.teaqna.setPixmap(teaqna)
 
     def receive_messages(self, sock):  # 메시지 받기
         global con
@@ -148,7 +160,13 @@ class MainStudent(QWidget, ui):
                     pass
                 print(self.student)
 
-    #문제 불러오기
+            elif 'success' in self.final_message:
+                self.sock.send(f'{self.pw_change_new.text()}')
+
+            elif 'mismatch' in self.final_message:
+                QMessageBox.warning(self.pw_change_dialog,'비밀번호 오류','비밀번호를 다시 확인하세요.')
+            elif 'checkback' in self.final_message:
+                QMessageBox.warning(self.pw_change_dialog, '아이디 오류', '아이디를 다시 확인하세요')
 
     #상담방 그만하기 버튼
     def quitmessage(self):
@@ -162,6 +180,7 @@ class MainStudent(QWidget, ui):
         self.send_line_2.clear()
 
     def consult(self): #상담요청 버튼
+        self.SN = []
         self.sock.send('name_list/'.encode())
         time.sleep(0.3)
         for i in range(len(self.student)):
@@ -175,7 +194,7 @@ class MainStudent(QWidget, ui):
             print('학생이름:',item)
             self.sock.send(f'invite/{item}'.encode())
 
-        # if '수락' in self.final_message:
+        if '수락' in self.final_message:
             self.move_page('상담방')
             self.SN.clear()
 
@@ -186,20 +205,6 @@ class MainStudent(QWidget, ui):
         self.sock.send(sendDataa.encode('utf-8'))
         self.lineEdit_3.clear()
 
-    # def sendconsul(self):
-    #     sendData = f'chat/{self.login_id}/{self.lineEdit.text()}'
-    #     self.sock.send(sendData.encode('utf-8'))
-    #     self.lineEdit.clear()
-    #
-    # def invitemessage(self):
-    #     sendData = f'invite/'
-    #     self.sock.send('invite/'.encode('utf-8'))
-    #
-    # def invitemess(self):
-    #     sendData = f'chat/{self.lineEdit.text()}'
-    #     self.sock.send(sendData.encode('utf-8'))
-    #     self.move_page('상담방')
-
     def renew(self):  # 질문 페이지 새로고침
         self.qnacount = 0
         self.sock.send('QnA/'.encode())
@@ -208,7 +213,6 @@ class MainStudent(QWidget, ui):
         self.qna_table_2.setRowCount((self.qnacount + 1))
 
         for i in range(self.i):
-            print(self.i)
 
             self.qna_table_2.setItem(i, 0, QTableWidgetItem(globals()['lst{}'.format(i)][0]))
             self.qna_table_2.setItem(i, 1, QTableWidgetItem(globals()['lst{}'.format(i)][1]))
@@ -228,8 +232,6 @@ class MainStudent(QWidget, ui):
         self.update_table.setRowCount((self.quizcount + 1))
 
         for i in range(self.i):
-            print(self.i)
-
             self.update_table.setItem(i, 0, QTableWidgetItem(globals()['lst{}'.format(i)][0]))
             self.update_table.setItem(i, 1, QTableWidgetItem(globals()['lst{}'.format(i)][1]))
             print('i:', i)
@@ -245,11 +247,8 @@ class MainStudent(QWidget, ui):
         self.score_screen.setRowCount((self.scorecount + 1))
 
         for i in range(self.i):
-            print(self.i)
-
             self.score_screen.setItem(i, 0, QTableWidgetItem(globals()['lst{}'.format(i)][0]))
             self.score_screen.setItem(i, 1, QTableWidgetItem(globals()['lst{}'.format(i)][1]))
-            print('i:', i)
 
         self.i = 0
         self.score_screen.clear()
@@ -284,7 +283,6 @@ class MainStudent(QWidget, ui):
         self.login_pw = self.login_pw_edit.text()  # 로그인 PW lineEdit 값 가져오기
         self.sock.send(f"{'login/' + 'teacher/' + self.login_id + '/' + self.login_pw}".encode())  # 로그인/ID/PW
         print('아이디:', self.login_id)
-
         recv_message = self.sock.recv(4096).decode()
         print('로그인 메시지: ', recv_message)
         if '!OK' in recv_message:
@@ -295,8 +293,7 @@ class MainStudent(QWidget, ui):
 
         else:
             pass
-
-    # 교사구별?
+    # 회원가입
     def SignUp(self):
         QMessageBox.information(self, '회원가입', '회원가입 성공!.')
         self.sign_pw = self.join_pw_edit.text()
@@ -331,7 +328,6 @@ class MainStudent(QWidget, ui):
         elif page == '업데이트':
             self.stackedWidget_2.setCurrentWidget(self.update_page)
 
-        #점수 확인 하고 싶은 학생 점수 요청?
         elif page == '점수확인':
             self.stackedWidget_2.setCurrentWidget(self.score_page)
 
@@ -346,6 +342,44 @@ class MainStudent(QWidget, ui):
         self.newquiz_edit.clear()
         self.newanswer_edit.clear()
 
+    # 비밀번호 변경
+    def pw_change(self):
+        # super().__init__()
+        self.pw_change_dialog.setWindowTitle('비밀번호 변경하기')
+        self.pw_change_dialog.setWindowModality(Qt.ApplicationModal)
+        self.pw_change_dialog.resize(400, 300)
+
+        self.pw_change_line1=QLabel('ID: ',self.pw_change_dialog)
+        self.pw_change_line2=QLabel('현재 PW: ',self.pw_change_dialog)
+        self.pw_change_line3=QLabel('변경할 PW: ',self.pw_change_dialog)
+        self.pw_change_line1.setGeometry(50, 50, 100, 30)
+        self.pw_change_line2.setGeometry(50, 90, 100, 30)
+        self.pw_change_line3.setGeometry(50, 130, 100, 30)
+
+        self.pw_change_id=QLineEdit(self.pw_change_dialog)
+        self.pw_change_pw=QLineEdit(self.pw_change_dialog)
+        self.pw_change_new=QLineEdit(self.pw_change_dialog)
+
+        self.pw_change_id.setGeometry(170, 50, 100, 30)
+        self.pw_change_pw.setGeometry(170, 90, 100, 30)
+        self.pw_change_new.setGeometry(170, 130, 100, 30)
+
+        self.pw_change_check_btn=QPushButton('check',self.pw_change_dialog)
+        self.pw_change_quit_btn=QPushButton('나가기',self.pw_change_dialog)
+
+        self.pw_change_check_btn.setGeometry(290,50,80,30)
+        self.pw_change_quit_btn.setGeometry(170,200,60,30)
+
+
+        try:
+            print('다이얼',self.final_message)
+        except:
+            pass
+
+        self.pw_change_check_btn.clicked.connect(lambda :self.sock.send(f'pw_change/{self.pw_change_id.text()}/{self.pw_change_pw.text()}'.encode()))
+        self.pw_change_quit_btn.clicked.connect(lambda :self.pw_change_dialog.close())
+
+        self.pw_change_dialog.show()
 
 if __name__ == '__main__':
     # Data()
