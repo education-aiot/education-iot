@@ -2,12 +2,21 @@ import sqlite3
 import sys
 import time
 from socket import *
+
+import matplotlib.pyplot as plt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from threading import *
 from random import *
+import numpy as np
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from matplotlib.animation import FuncAnimation, writers
+import matplotlib.animation as animation
+
 
 ui = uic.loadUiType("base111.ui")[0]  # ui
 
@@ -24,10 +33,12 @@ class MainStudent(QWidget, ui):
         self.scorecount = 0
         self.i = 0
 
-        # 학생 목록
+        # 그래프 그리기
+        self.quiz_avg_num = []
+        self.quiz_avg_list = []
 
         self.sock = socket(AF_INET, SOCK_STREAM)
-        self.sock.connect(('127.0.0.1', 9121))
+        self.sock.connect(('127.0.0.1', 9040))
 
         self.pw_change_dialog = QDialog()
 
@@ -67,10 +78,23 @@ class MainStudent(QWidget, ui):
         self.quiz_renew_btn.clicked.connect(self.update_renew)
         # 학생 통계확인 버튼
         self.avg_btn.clicked.connect(self.score_renew)
+        #
+        self.aaa = plt.Figure()
+        self.aaa1 = FigureCanvas(self.aaa)
+        self.verticalLayout.addWidget(self.aaa1)
+        self.aaa2 = self.aaa.add_subplot()
+        self.aaa3 = animation.FuncAnimation(self.aaa, self.animate, interval=1000, blit=False)
+
+
 
         # teaqna = QPixmap()
         # teaqna.load('/home/psj/바탕화면/python/png/stu_QnA.png')
         # self.teaqna.setPixmap(teaqna)
+
+    def animate(self, i):
+        self.aaa2.clear()
+        self.aaa2.set_ylim(0, 100)
+        self.aaa2.bar(self.quiz_avg_num,self.quiz_avg_list)
 
     def receive_messages(self, sock):  # 메시지 받기
         global con
@@ -120,6 +144,10 @@ class MainStudent(QWidget, ui):
 
             elif 'avg/' in self.final_message:
                 self.avg = self.final_message.split('/')
+                self.quiz_avg_num.append(f'quiz{self.avg[1]}')
+                self.quiz_avg_list.append(int(self.avg[2]))
+                print(self.quiz_avg_num)
+                print(self.quiz_avg_list)
                 avg_info = ['문제번호', '정답률']
                 self.score_screen.setHorizontalHeaderLabels(avg_info)
                 try:
@@ -169,6 +197,8 @@ class MainStudent(QWidget, ui):
 
             elif '수락' in self.final_message:
                 self.move_page('상담방')
+
+
 
     # 상담방 그만하기 버튼
     def quitmessage(self):
@@ -300,8 +330,10 @@ class MainStudent(QWidget, ui):
     def move_page(self, page):
         if page == '로그인':
             self.stackedWidget_2.setCurrentWidget(self.login_page_2)
+
         elif page == '회원가입':
             self.stackedWidget_2.setCurrentWidget(self.register_page_2)
+
         elif page == '로그아웃':
             self.stackedWidget_2.setCurrentWidget(self.login_page_2)
             self.sock.send(f"{'logout/' + 'teacher/' + self.login_id + '/' + self.login_pw}".encode())
