@@ -82,7 +82,7 @@ def handle_clnt(clnt_sock):
             continue
 
 
-'''
+''''
 def logout(clnt_num):
     global clnt_cnt
     clnt_sock = clnt_data[clnt_num][0]
@@ -97,7 +97,6 @@ def logout(clnt_num):
             break
     clnt_cnt -= 1
 '''
-
 
 def pw_change(clnt_num,clnt_msg):
     conn, cur=conn_DB()
@@ -114,22 +113,19 @@ def pw_change(clnt_num,clnt_msg):
     cur.execute(sql,(input_id)) # 실행
     pw=cur.fetchone() # 저장
     
-    # DBdata   [0] id    [1]  pw
-    #DBdata = '/'.join(DBdata)
 
     if not pw:
         clnt_sock.send('id error'.encode())
         return
      
-    if input_pw == pw: # pw
+    if (input_pw,) == pw: # pw
         clnt_sock.send('pw success'.encode())
     else :
         clnt_sock.send('pw mismatch'.encode())
         return
     
 
-    new_pw=clnt_sock.recv(BUF_SIZE)
-    new_pw=new_pw.decode()
+    new_pw=clnt_sock.recv(BUF_SIZE).decode()
     pw_update="update %s set pw =? where id=?" %member
     cur.execute(pw_update,(new_pw,input_id,))
     
