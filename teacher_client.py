@@ -32,6 +32,12 @@ class MainStudent(QWidget, ui):
         self.quizcount = 0
         self.scorecount = 0
         self.i = 0
+        self.cc = []
+        bb='asdasd/asdasdasd/asdasd'
+        self
+        self.a=[[]]
+        self.b=0
+        self.c=0
 
         # 그래프 그리기
         self.quiz_avg_num = []
@@ -79,23 +85,50 @@ class MainStudent(QWidget, ui):
         # 학생 통계확인 버튼
         self.avg_btn.clicked.connect(self.score_renew)
         #
-        self.aaa = plt.Figure()
+        self.aaa = plt.figure()
         self.aaa1 = FigureCanvas(self.aaa)
         self.verticalLayout.addWidget(self.aaa1)
-        self.aaa2 = self.aaa.add_subplot()
+        self.aaa1 = self.aaa.add_subplot()
         self.aaa3 = animation.FuncAnimation(self.aaa, self.animate, interval=1000, blit=False)
 
+        teaqna = QPixmap()
+        teaqna.load('/home/ai2022/PycharmProjects/1_project/png/stu_QnA.png')
+        self.teaqna.setPixmap(teaqna)
 
+        teaconsul= QPixmap()
+        teaconsul.load('/home/ai2022/PycharmProjects/1_project/png/stu_consult.png')
+        self.teaconsul.setPixmap(teaconsul)
 
-        # teaqna = QPixmap()
-        # teaqna.load('/home/psj/바탕화면/python/png/stu_QnA.png')
-        # self.teaqna.setPixmap(teaqna)
+        teaupdate = QPixmap()
+        teaupdate.load('/home/ai2022/PycharmProjects/1_project/png/stu_quiz.png')
+        self.teaupdate.setPixmap(teaupdate)
+
+        scorepage = QPixmap()
+        scorepage.load('/home/ai2022/PycharmProjects/1_project/png/stu_quiz.png')
+        self.scorepage.setPixmap(scorepage)
+
+        teamain = QPixmap()
+        teamain.load('/home/ai2022/PycharmProjects/1_project/png/stu_main.png')
+        self.teamain.setPixmap(teamain)
+
+        stumainbtn3 = QPixmap()
+        stumainbtn3.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn3.setPixmap(stumainbtn3)
+
+        stumainbtn4 = QPixmap()
+        stumainbtn4.load('/home/ai2022/PycharmProjects/1_project/png/1.png')
+        self.stumainbtn4.setPixmap(stumainbtn4)
 
     def animate(self, i):
-        self.aaa2.clear()
-        self.aaa2.set_ylim(0, 100)
-        self.aaa2.bar(self.quiz_avg_num,self.quiz_avg_list)
+        self.aaa1.clear()
+        self.a+=randint(1,10)
+        self.b+=randint(1,10)
+        self.c+=randint(1,10)
 
+        self.aaa1.pie([self.a,self.b,self.c], labels=['a', 'b','c'], autopct='%.1f%%',
+                       colors=['yellow', 'red','blue'], shadow=True)
+        print(self.quiz_avg_num)
+        print(self.quiz_avg_list)
     def receive_messages(self, sock):  # 메시지 받기
         global con
         while True:
@@ -143,6 +176,7 @@ class MainStudent(QWidget, ui):
                     pass
 
             elif 'avg/' in self.final_message:
+
                 self.avg = self.final_message.split('/')
                 self.quiz_avg_num.append(f'quiz{self.avg[1]}')
                 self.quiz_avg_list.append(int(self.avg[2]))

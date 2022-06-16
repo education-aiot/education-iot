@@ -171,7 +171,8 @@ class MainStudent(QWidget, ui):
             elif 'success' in self.final_message:
                 time.sleep(0.2)
                 self.sock.send(f'{self.pw_change_new.text()}'.encode())
-                print('프린트')
+                self.move_page('로그인')
+
 
             elif 'mismatch' in self.final_message:
                 QMessageBox.warning(self.pw_change_dialog,'비밀번호 오류','비밀번호를 다시 확인하세요.')
@@ -350,11 +351,12 @@ class MainStudent(QWidget, ui):
             if self.answer_lst[i]==answer_lst[i]: # 답이 정답이면 스코어 증가 answer/문제 로 정답 메시지 보내기
                 self.score+=1
                 self.sock.send(f'mark/{i + 1}/o'.encode())
+                time.sleep(0.2)
             else:
                 self.wrong_answer.append(i+1) # 답이 오답이면 스코어 증가 x wrong/문제로 오답 메시지 보내기
                 self.check_browser.append(f'{i+1} 오답')
                 self.sock.send(f'mark/{i + 1}/x'.encode())
-                time.sleep(0.3)
+                time.sleep(0.2)
 
         self.lcdNumber.display(self.score) # lcd 위젯 점수 표시용
 
