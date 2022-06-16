@@ -331,10 +331,13 @@ class MainStudent(QWidget, ui):
 
     def check_answer(self): # 답 비교하기 함수
         self.score=0
+        answer_lst = []
         self.wrong_answer.clear() # 틀린답 리스트 지우기
         self.check_browser.clear() # 오답표시 브라우저
+
         print('self.answer_lst: ',self.answer_lst)
-        answer_lst=[]
+        print('anser_list:',answer_lst)
+
         for i in range(self.tableWidget_2.rowCount()):
             try:
                 item = self.tableWidget_2.item(i,1)
@@ -342,6 +345,8 @@ class MainStudent(QWidget, ui):
             except:
                 value=''
             answer_lst.append(value)
+
+
             if self.answer_lst[i]==answer_lst[i]: # 답이 정답이면 스코어 증가 answer/문제 로 정답 메시지 보내기
                 self.score+=1
                 self.sock.send(f'mark/{i + 1}/o'.encode())
@@ -352,7 +357,7 @@ class MainStudent(QWidget, ui):
                 time.sleep(0.3)
 
         self.lcdNumber.display(self.score) # lcd 위젯 점수 표시용
-        self.answer_lst.clear()
+
         # self.sock.send(f'{self.log}')
         print('final answer_lst: ', answer_lst)
 
