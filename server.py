@@ -112,7 +112,7 @@ def pw_change(clnt_num,clnt_msg):
     clnt_sock = clnt_data[clnt_num][0]
 
     sql="select pw from  %s where id=?" %member
-    cur.execute(sql,(input_id)) # 실행
+    cur.execute(sql,(input_id,)) # 실행
     pw=cur.fetchone() # 저장
     
 
